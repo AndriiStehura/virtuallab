@@ -96,7 +96,11 @@ class LabTask {
 }
 
 class LabTaskMapper {
+  const LabTaskMapper();
+
   String toJson(LabTask object) => json.encode(object.toMap());
 
   LabTask fromJson(String source) => LabTask.fromMap(json.decode(source));
+
+  List<LabTask> fromListJson(Iterable<String> source) => source.map((e) => fromJson(e)).toList();
 }

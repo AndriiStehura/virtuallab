@@ -9,4 +9,8 @@ class LabApiRequest extends ApiRequest {
   static const auth = LabApiRequest('auth/signin');
   static const register = LabApiRequest('auth/register');
   static const signOut = LabApiRequest('auth/signout');
+  static const statistics = LabApiRequest('Statistics');
+  static const checkAnswer = LabApiRequest('Tasks/check');
+  static const taskByFilter = LabApiRequest('Tasks/byfilter');
+  static const tasks = LabApiRequest('Tasks');
 }

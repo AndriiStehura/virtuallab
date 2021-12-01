@@ -39,17 +39,13 @@ class Answer {
   }
 
   @override
-  String toString() =>
-      'Answer(taskId: $taskId, userId: $userId, answer: $answer)';
+  String toString() => 'Answer(taskId: $taskId, userId: $userId, answer: $answer)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Answer &&
-        other.taskId == taskId &&
-        other.userId == userId &&
-        other.answer == answer;
+    return other is Answer && other.taskId == taskId && other.userId == userId && other.answer == answer;
   }
 
   @override
@@ -57,6 +53,8 @@ class Answer {
 }
 
 class AnswerMapper {
+  const AnswerMapper();
+
   String toJson(Answer object) => json.encode(object.toMap());
 
   Answer fromJson(String source) => Answer.fromMap(json.decode(source));

@@ -10,6 +10,7 @@ class User {
   final String group;
   final int identityId;
   final Identity identity;
+  final bool isAdmin;
   User({
     required this.id,
     required this.email,
@@ -18,6 +19,7 @@ class User {
     required this.group,
     required this.identityId,
     required this.identity,
+    required this.isAdmin,
   });
 
   User copyWith({
@@ -28,6 +30,7 @@ class User {
     String? group,
     int? identityId,
     Identity? identity,
+    bool? isAdmin,
   }) {
     return User(
       id: id ?? this.id,
@@ -37,6 +40,7 @@ class User {
       group: group ?? this.group,
       identityId: identityId ?? this.identityId,
       identity: identity ?? this.identity,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
@@ -49,6 +53,7 @@ class User {
       'group': group,
       'identityId': identityId,
       'identity': identity.toMap(),
+      'isAdmin': isAdmin,
     };
   }
 
@@ -61,12 +66,13 @@ class User {
       group: map['group'],
       identityId: map['identityId'],
       identity: Identity.fromMap(map['identity']),
+      isAdmin: map['isAdmin'],
     );
   }
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, group: $group, identityId: $identityId, identity: $identity)';
+    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, group: $group, identityId: $identityId, identity: $identity, isAdmin: $isAdmin)';
   }
 
   @override
@@ -80,7 +86,8 @@ class User {
         other.lastName == lastName &&
         other.group == group &&
         other.identityId == identityId &&
-        other.identity == identity;
+        other.identity == identity &&
+        other.isAdmin == isAdmin;
   }
 
   @override
@@ -91,7 +98,8 @@ class User {
         lastName.hashCode ^
         group.hashCode ^
         identityId.hashCode ^
-        identity.hashCode;
+        identity.hashCode ^
+        isAdmin.hashCode;
   }
 }
 

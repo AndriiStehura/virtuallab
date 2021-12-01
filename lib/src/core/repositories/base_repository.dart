@@ -13,10 +13,7 @@ class RequestRepository implements Repository {
       {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
   @override
-  FutureOr onDispose() {
-    // TODO: implement onDispose
-    throw UnimplementedError();
-  }
+  FutureOr onDispose() {}
 
   Uri requestUri(final ApiRequest request,
       {final Map<String, String>? parameters,
