@@ -9,18 +9,17 @@ abstract class Repository implements Disposable {}
 class RequestRepository implements Repository {
   String get apiPath => 'localhost:44366';
 
-  Map<String, String> get defaultHeaders =>
-      {'Content-Type': 'application/json', 'Accept': 'application/json'};
+  Map<String, String> get defaultHeaders => {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
   @override
   FutureOr onDispose() {}
 
-  Uri requestUri(final ApiRequest request,
-      {final Map<String, String>? parameters,
-      final Map<String, dynamic>? queryParameters}) {
-    final path = parameters.isBlank
-        ? _getPath(request)
-        : _getPathWithParameters(request, parameters);
+  Uri requestUri(
+    final ApiRequest request, {
+    final Map<String, String>? parameters,
+    final Map<String, dynamic>? queryParameters,
+  }) {
+    final path = parameters.isBlank ? _getPath(request) : _getPathWithParameters(request, parameters);
 
     return Uri.https(apiPath, path).replace(queryParameters: queryParameters);
   }
@@ -28,12 +27,11 @@ class RequestRepository implements Repository {
   String _getPath(ApiRequest request) {
     switch (request) {
       default:
-        return '';
+        return apiPath + request.name;
     }
   }
 
-  String _getPathWithParameters(
-      ApiRequest request, final Map<String, String>? parameters) {
+  String _getPathWithParameters(ApiRequest request, final Map<String, String>? parameters) {
     switch (request) {
       default:
         return '';

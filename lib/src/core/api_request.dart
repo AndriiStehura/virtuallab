@@ -13,4 +13,6 @@ class LabApiRequest extends ApiRequest {
   static const checkAnswer = LabApiRequest('Tasks/check');
   static const taskByFilter = LabApiRequest('Tasks/byfilter');
   static const tasks = LabApiRequest('Tasks');
+  static const themes = LabApiRequest('Themes');
+  static const users = LabApiRequest('User');
 }

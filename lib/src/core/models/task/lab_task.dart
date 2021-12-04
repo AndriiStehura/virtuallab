@@ -10,7 +10,7 @@ class LabTask {
   final Complexity complexity;
   final int themeId;
   final Theme theme;
-  final int allowedChecks;
+
   LabTask({
     required this.id,
     required this.description,
@@ -18,7 +18,6 @@ class LabTask {
     required this.complexity,
     required this.themeId,
     required this.theme,
-    required this.allowedChecks,
   });
 
   LabTask copyWith({
@@ -37,7 +36,6 @@ class LabTask {
       complexity: complexity ?? this.complexity,
       themeId: themeId ?? this.themeId,
       theme: theme ?? this.theme,
-      allowedChecks: allowedChecks ?? this.allowedChecks,
     );
   }
 
@@ -48,7 +46,6 @@ class LabTask {
       'answer': answer,
       'themeId': themeId,
       'theme': theme.toMap(),
-      'allowedChecks': allowedChecks,
     };
   }
 
@@ -60,13 +57,12 @@ class LabTask {
       complexity: ComplexityInit.init(map['complexity']),
       themeId: map['themeId'],
       theme: Theme.fromMap(map['theme']),
-      allowedChecks: map['allowedChecks'],
     );
   }
 
   @override
   String toString() {
-    return 'LabTask(id: $id, description: $description, answer: $answer, complexity: $complexity, themeId: $themeId, theme: $theme, allowedChecks: $allowedChecks)';
+    return 'LabTask(id: $id, description: $description, answer: $answer, complexity: $complexity, themeId: $themeId, theme: $theme)';
   }
 
   @override
@@ -79,8 +75,7 @@ class LabTask {
         other.answer == answer &&
         other.complexity == complexity &&
         other.themeId == themeId &&
-        other.theme == theme &&
-        other.allowedChecks == allowedChecks;
+        other.theme == theme;
   }
 
   @override
@@ -90,8 +85,7 @@ class LabTask {
         answer.hashCode ^
         complexity.hashCode ^
         themeId.hashCode ^
-        theme.hashCode ^
-        allowedChecks.hashCode;
+        theme.hashCode;
   }
 }
 

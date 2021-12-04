@@ -1,16 +1,14 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:virtuallab/src/core/models/task/lab_task.dart';
 
 class Theme {
   final int id;
   final String name;
-  final List<LabTask>? tasks;
+
   Theme({
     required this.id,
     required this.name,
-    this.tasks,
   });
 
   Theme copyWith({
@@ -21,7 +19,6 @@ class Theme {
     return Theme(
       id: id ?? this.id,
       name: name ?? this.name,
-      tasks: tasks ?? this.tasks,
     );
   }
 
@@ -29,7 +26,6 @@ class Theme {
     return {
       'id': id,
       'name': name,
-      'tasks': tasks?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -37,32 +33,33 @@ class Theme {
     return Theme(
       id: map['id'],
       name: map['name'],
-      tasks: map['tasks'] != null
-          ? List<LabTask>.from(map['tasks']?.map((x) => LabTask.fromMap(x)))
-          : null,
     );
   }
 
   @override
-  String toString() => 'Theme(id: $id, name: $name, tasks: $tasks)';
+  String toString() => 'Theme(id: $id, name: $name)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
 
-    return other is Theme &&
-        other.id == id &&
-        other.name == name &&
-        listEquals(other.tasks, tasks);
+    return other is Theme && other.id == id && other.name == name;
   }
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ tasks.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode;
 }
 
 class ThemeMapper {
+  const ThemeMapper();
+
   String toJson(Theme object) => json.encode(object.toMap());
 
   Theme fromJson(String source) => Theme.fromMap(json.decode(source));
+
+  List<Theme> fromJsonList(String source) {
+    final data = json.decode(source);
+
+    return data.map((e) => Theme.fromMap(e)).toList();
+  }
 }

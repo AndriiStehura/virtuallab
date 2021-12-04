@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:virtuallab/src/core/api_request.dart';
 import 'package:virtuallab/src/core/default_io_client.dart';
 import 'package:virtuallab/src/core/models/user/auth_data.dart';
+import 'package:virtuallab/src/core/models/user/user.dart';
 import 'package:virtuallab/src/core/repositories/base_repository.dart';
 import 'package:virtuallab/src/core/result.dart';
 
@@ -20,10 +21,12 @@ class AuthDataRepositoryImpl extends RequestRepository implements AuthDataReposi
   AuthDataRepositoryImpl(
     this.client, {
     this.mapper = const AuthDataMapper(),
+    this.userMapper = const UserMapper(),
     this.codec = const JsonCodec(),
   });
 
   final AuthDataMapper mapper;
+  final UserMapper userMapper;
   final DefaultIOClient client;
   final JsonCodec codec;
 

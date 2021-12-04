@@ -104,7 +104,15 @@ class User {
 }
 
 class UserMapper {
+  const UserMapper();
+
   String toJson(User object) => json.encode(object.toMap());
 
   User fromJson(String source) => User.fromMap(json.decode(source));
+
+  List<User> fromJsonList(String source) {
+    final data = json.decode(source);
+
+    return data.map((e) => User.fromMap(e)).toList();
+  }
 }

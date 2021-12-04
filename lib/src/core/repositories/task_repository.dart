@@ -76,7 +76,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
 
     final response = await client.post(uri);
 
-    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Check answer failed'));
+    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Get task failed'));
 
     return const Result.success(true);
   }
@@ -87,7 +87,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
 
     final response = await client.get(uri);
 
-    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Check answer failed'));
+    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Get task failed id : $id'));
 
     final data = mapper.fromJson(response.body);
 
@@ -104,7 +104,11 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
 
     final response = await client.get(uri);
 
-    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Check answer failed'));
+    if (response.statusCode != HttpStatus.ok) {
+      return Result.failed(
+        Exception('Get task failed id: $id themeid: $themeId, complexity: ${complexity.toFilter()}'),
+      );
+    }
 
     final data = mapper.fromListJson(codec.decode(response.body));
 
@@ -117,7 +121,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
 
     final response = await client.get(uri);
 
-    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Check answer failed'));
+    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Get tasks failed'));
 
     final data = mapper.fromListJson(codec.decode(response.body));
 
@@ -131,7 +135,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
     final body = mapper.toJson(task);
     final response = await client.put(uri, body: body);
 
-    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Check answer failed'));
+    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Update tasks failed'));
 
     return const Result.success(true);
   }

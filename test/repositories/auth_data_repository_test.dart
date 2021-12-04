@@ -44,7 +44,7 @@ main() {
     test('failed with http exception', () async {
       const exception = 'Send user data failed';
       final expected = Result.failed(Exception(exception));
-      when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 500));
+      when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 401));
 
       final result = await repository.auth(data);
 
@@ -69,7 +69,7 @@ main() {
     test('failed with http exception', () async {
       const exception = 'Register failed';
       final expected = Result.failed(Exception(exception));
-      when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 500));
+      when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 401));
 
       final result = await repository.register(data);
 
@@ -94,7 +94,7 @@ main() {
     test('failed with http exception', () async {
       const exception = 'SignOut failed';
       final expected = Result.failed(Exception(exception));
-      when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 500));
+      when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 401));
 
       final result = await repository.signOut(data);
 

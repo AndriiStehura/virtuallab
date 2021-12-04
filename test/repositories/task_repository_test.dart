@@ -21,7 +21,7 @@ main() {
   late final JsonCodec codec;
   late final DefaultIOClient client;
 
-  final theme = Theme(id: 1, name: 'name', tasks: []);
+  final theme = Theme(id: 1, name: 'name');
   final task = LabTask(
     id: 1,
     description: 'description',
@@ -29,7 +29,6 @@ main() {
     complexity: Complexity.hard,
     themeId: 1,
     theme: theme,
-    allowedChecks: 2,
   );
 
   setUpAll(() {
@@ -48,6 +47,7 @@ main() {
       when(() => client.get(any())).thenAnswer((_) async => Response('"success" : true', HttpStatus.ok));
       when(() => mapper.fromJson(any())).thenAnswer((_) => task);
     });
+
     test('success', () async {
       final expected = task;
 
@@ -57,11 +57,12 @@ main() {
     });
 
     test('failed', () async {
-      const exception = 'Check answer failed';
+      const id = 1;
+      const exception = 'Get task failed id : $id';
       final expected = Result.failed(Exception(exception));
-      when(() => client.get(any())).thenAnswer((_) async => Response('body', 500));
+      when(() => client.get(any())).thenAnswer((_) async => Response('body', 401));
 
-      final result = await repository.getTask(1);
+      final result = await repository.getTask(id);
 
       expect(expected.exception.toString(), result.exception.toString());
     });
@@ -74,6 +75,7 @@ main() {
       ).thenAnswer((_) async => Response('"success" : true', HttpStatus.ok));
       when(() => mapper.toJson(any())).thenAnswer((_) => "json");
     });
+
     test('success', () async {
       const expected = true;
 
@@ -87,7 +89,7 @@ main() {
       final expected = Result.failed(Exception(exception));
       when(
         () => client.post(any(), body: any(named: 'body')),
-      ).thenAnswer((_) async => Response('body', 500));
+      ).thenAnswer((_) async => Response('body', 401));
 
       final result = await repository.createTask(task);
 
