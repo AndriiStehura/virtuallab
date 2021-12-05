@@ -1,56 +1,53 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 
-import 'package:http/http.dart';
-import 'package:http/io_client.dart';
-
-class DefaultIOClient extends IOClient {
-  DefaultIOClient({
-    required HttpClient inner,
-  }) : super(inner);
+class DefaultIOClient {
+  DefaultIOClient();
+  Map<String, String> get defaultHeaders => {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
   @override
-  Future<Response> get(
+  Future<http.Response> get(
     final Uri url, {
     final Map<String, String>? headers,
   }) async {
-    final result = await super.get(url, headers: headers);
+    final result = await http.get(url, headers: headers);
 
     return result;
   }
 
   @override
-  Future<Response> put(
+  Future<http.Response> put(
     final Uri url, {
     final Map<String, String>? headers,
     final dynamic body,
     final Encoding? encoding,
   }) async {
-    final result = await super.put(url, headers: headers);
+    final result = await http.put(url, headers: headers);
 
     return result;
   }
 
   @override
-  Future<Response> delete(
+  Future<http.Response> delete(
     final Uri url, {
     final Map<String, String>? headers,
     final dynamic body,
     final Encoding? encoding,
   }) async {
-    final result = await super.delete(url, headers: headers);
+    final result = await http.delete(url, headers: headers);
 
     return result;
   }
 
   @override
-  Future<Response> post(
+  Future<http.Response> post(
     final Uri url, {
     final Map<String, String>? headers,
     final dynamic body,
     final Encoding? encoding,
   }) async {
-    final result = await super.post(url, headers: headers);
+    final result = await http.post(url, headers: headers ?? defaultHeaders, body: body, encoding: encoding);
 
     return result;
   }

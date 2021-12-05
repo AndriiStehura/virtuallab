@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:virtuallab/src/core/models/user/auth_data.dart';
+import 'package:virtuallab/src/core/models/user/user.dart';
 import 'package:virtuallab/src/core/repositories/auth_data_repository.dart';
 
 import '../result.dart';
 
 abstract class AuthService {
   Future<Result<bool, Exception>> login(AuthData data);
-  Future<Result<bool, Exception>> register(AuthData data);
+  Future<Result<bool, Exception>> register(User data);
   Future<Result<bool, Exception>> signOut(AuthData data);
 }
 
@@ -29,7 +30,7 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<Result<bool, Exception>> register(AuthData data) async {
+  Future<Result<bool, Exception>> register(User data) async {
     final result = await _repository.register(data);
 
     if (result.exceptionOrNull != null) {

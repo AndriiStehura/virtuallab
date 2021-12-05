@@ -1,8 +1,8 @@
-// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: curly_braces_in_flow_control_structures, avoid_web_libraries_in_flutter
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:html';
 
 import 'package:virtuallab/src/core/api_request.dart';
 import 'package:virtuallab/src/core/default_io_client.dart';
@@ -13,7 +13,7 @@ import 'package:virtuallab/src/core/result.dart';
 
 abstract class AuthDataRepository implements Repository {
   Future<Result<bool, Exception>> auth(AuthData data);
-  Future<Result<bool, Exception>> register(AuthData data);
+  Future<Result<bool, Exception>> register(User data);
   Future<Result<bool, Exception>> signOut(AuthData data);
 }
 
@@ -42,10 +42,10 @@ class AuthDataRepositoryImpl extends RequestRepository implements AuthDataReposi
   }
 
   @override
-  Future<Result<bool, Exception>> register(AuthData data) async {
+  Future<Result<bool, Exception>> register(User data) async {
     final uri = requestUri(LabApiRequest.register);
 
-    final response = await client.post(uri, body: mapper.toJson(data));
+    final response = await client.post(uri, body: userMapper.toJson(data));
 
     if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Register failed'));
 

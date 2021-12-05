@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:virtuallab/src/pages/login_page.dart';
+import 'package:virtuallab/src/service_locator.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setup();
   runApp(const MyApp());
 }
 

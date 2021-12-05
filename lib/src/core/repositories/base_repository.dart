@@ -4,12 +4,10 @@ import 'package:get_it/get_it.dart';
 import 'package:virtuallab/src/core/api_request.dart';
 import 'package:virtuallab/src/core/extensions/map.dart';
 
-abstract class Repository implements Disposable {}
+abstract class Repository {}
 
 class RequestRepository implements Repository {
   String get apiPath => 'localhost:44366';
-
-  Map<String, String> get defaultHeaders => {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
   @override
   FutureOr onDispose() {}
@@ -27,7 +25,7 @@ class RequestRepository implements Repository {
   String _getPath(ApiRequest request) {
     switch (request) {
       default:
-        return apiPath + request.name;
+        return '/Api' + request.name;
     }
   }
 

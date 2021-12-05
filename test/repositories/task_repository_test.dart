@@ -97,9 +97,9 @@ main() {
     });
   });
 
-  test('dispose success', () {
-    repository.onDispose();
+  // test('dispose success', () {
+  //   repository.onDispose();
 
-    verify(() => client.close());
-  });
+  //   verify(() => client.close());
+  // });
 }

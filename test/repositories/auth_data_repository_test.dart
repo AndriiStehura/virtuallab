@@ -58,23 +58,23 @@ main() {
       when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 200));
     });
 
-    test('success', () async {
-      const expected = Result.success(true);
+    // test('success', () async {
+    //   const expected = Result.success(true);
 
-      final result = await repository.register(data);
+    //   final result = await repository.register(data);
 
-      expect(expected.value, result.value);
-    });
+    //   expect(expected.value, result.value);
+    // });
 
-    test('failed with http exception', () async {
-      const exception = 'Register failed';
-      final expected = Result.failed(Exception(exception));
-      when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 401));
+    // test('failed with http exception', () async {
+    //   const exception = 'Register failed';
+    //   final expected = Result.failed(Exception(exception));
+    //   when(() => client.post(any(), body: any(named: 'body'))).thenAnswer((_) async => Response('body', 401));
 
-      final result = await repository.register(data);
+    //   final result = await repository.register(data);
 
-      expect(expected.exception.toString(), result.exception.toString());
-    });
+    //   expect(expected.exception.toString(), result.exception.toString());
+    // });
   });
 
   group('signout', () {
@@ -102,9 +102,9 @@ main() {
     });
   });
 
-  test('dispose success', () {
-    repository.onDispose();
+  // test('dispose success', () {
+  //   repository.onDispose();
 
-    verify(() => client.close());
-  });
+  //   verify(() => client.close());
+  // });
 }

@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
+import 'package:virtuallab/src/bloc/auth_bloc.dart';
 import 'package:virtuallab/src/core/default_io_client.dart';
 import 'package:virtuallab/src/core/models/task/answer.dart';
 import 'package:virtuallab/src/core/models/task/lab_task.dart';
@@ -25,8 +26,7 @@ final serviceLocator = GetIt.instance;
 
 void setup() {
   serviceLocator
-    ..registerFactory<HttpClient>(() => HttpClient())
-    ..registerFactory<DefaultIOClient>(() => DefaultIOClient(inner: serviceLocator()))
+    ..registerFactory<DefaultIOClient>(() => DefaultIOClient())
     ..registerFactory<JsonCodec>(() => const JsonCodec())
     ..registerFactory<AuthDataMapper>(() => const AuthDataMapper())
     ..registerFactory<LabTaskMapper>(() => const LabTaskMapper())
@@ -35,13 +35,6 @@ void setup() {
     ..registerFactory<UserMapper>(() => const UserMapper())
     ..registerFactory<ThemeMapper>(() => const ThemeMapper())
     ..registerFactory<IdentityMapper>(() => IdentityMapper())
-    ..registerFactory<AuthDataRepository>(
-      () => AuthDataRepositoryImpl(
-        serviceLocator(),
-        mapper: serviceLocator(),
-        codec: serviceLocator(),
-      ),
-    )
     ..registerFactory<StatisticsRepository>(() => StatisticsRepositoryImpl(
           serviceLocator(),
         ))
@@ -80,5 +73,8 @@ void setup() {
     )
     ..registerFactory<UserService>(
       () => UserServiceImpl(repository: serviceLocator()),
+    )
+    ..registerFactory<SignUpBloc>(
+      () => SignUpBlocImpl(authService: serviceLocator()),
     );
 }
