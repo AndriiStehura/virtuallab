@@ -12,7 +12,7 @@ import 'package:virtuallab/src/core/repositories/base_repository.dart';
 import 'package:virtuallab/src/core/result.dart';
 
 abstract class AuthDataRepository implements Repository {
-  Future<Result<bool, Exception>> auth(AuthData data);
+  Future<Result<User, Exception>> auth(AuthData data);
   Future<Result<bool, Exception>> register(User data);
   Future<Result<bool, Exception>> signOut(AuthData data);
 }
@@ -31,14 +31,16 @@ class AuthDataRepositoryImpl extends RequestRepository implements AuthDataReposi
   final JsonCodec codec;
 
   @override
-  Future<Result<bool, Exception>> auth(AuthData data) async {
+  Future<Result<User, Exception>> auth(AuthData data) async {
     final uri = requestUri(LabApiRequest.auth);
 
     final response = await client.post(uri, body: mapper.toJson(data));
 
     if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Send user data failed'));
 
-    return const Result.success(true);
+    final user = userMapper.fromJson(response.body);
+
+    return Result.success(user);
   }
 
   @override

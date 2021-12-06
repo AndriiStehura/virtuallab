@@ -60,6 +60,8 @@ class ThemeMapper {
   List<Theme> fromJsonList(String source) {
     final data = json.decode(source);
 
-    return data.map((e) => Theme.fromMap(e)).toList();
+    final themes = data.map<Theme>((e) => Theme.fromMap(e as Map<String, dynamic>));
+
+    return themes.toList();
   }
 }

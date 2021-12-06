@@ -118,6 +118,9 @@ abstract class SignUpBloc {
   ValueStream<SignUpState> get state;
   SignUpState get initial;
   Future<void> trySignUp(String firstname, String lastname, String email, String password, String confirmPassword);
+
+  Future<void> tryLogin(String email, String password);
+  Future<void> tryAutologin();
 }
 
 class SignUpBlocImpl implements SignUpBloc {
@@ -221,5 +224,63 @@ class SignUpBlocImpl implements SignUpBloc {
 
   bool _checkEquals(String value1, String value2) {
     return value1.compareTo(value2) == 0 && value1.isNotEmpty;
+  }
+
+  @override
+  Future<void> tryLogin(String email, String password) async {
+    final authData = AuthData(passwordHash: password, email: email);
+
+    sink.add(SignUpState(
+      hasError: false,
+      isConfirmPasswordValid: true,
+      isEmailValid: true,
+      isFirstnameValid: true,
+      isPasswordValid: true,
+      isSingedUp: false,
+      isLastnameValid: true,
+      isWaiting: true,
+    ));
+    final result = await _authService.login(authData);
+
+    if (result.valueOrNull != null) {
+      sink.add(SignUpState(
+        hasError: false,
+        isConfirmPasswordValid: true,
+        isEmailValid: true,
+        isFirstnameValid: true,
+        isPasswordValid: true,
+        isSingedUp: true,
+        isLastnameValid: true,
+        isWaiting: false,
+      ));
+    } else {
+      sink.add(SignUpState(
+        hasError: true,
+        isConfirmPasswordValid: true,
+        isEmailValid: true,
+        isFirstnameValid: true,
+        isPasswordValid: true,
+        isSingedUp: false,
+        isLastnameValid: true,
+        isWaiting: false,
+      ));
+    }
+  }
+
+  @override
+  Future<void> tryAutologin() async {
+    final result = await _authService.tryAutologin();
+    if (result.valueOrNull != null) {
+      sink.add(SignUpState(
+        hasError: false,
+        isConfirmPasswordValid: true,
+        isEmailValid: true,
+        isFirstnameValid: true,
+        isPasswordValid: true,
+        isSingedUp: true,
+        isLastnameValid: true,
+        isWaiting: false,
+      ));
+    }
   }
 }

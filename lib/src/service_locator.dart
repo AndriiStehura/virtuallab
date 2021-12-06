@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:virtuallab/src/bloc/auth_bloc.dart';
+import 'package:virtuallab/src/bloc/task_select_bloc.dart';
 import 'package:virtuallab/src/core/default_io_client.dart';
 import 'package:virtuallab/src/core/models/task/answer.dart';
 import 'package:virtuallab/src/core/models/task/lab_task.dart';
@@ -59,8 +60,8 @@ void setup() {
           mapper: serviceLocator(),
           codec: serviceLocator(),
         ))
-    ..registerFactory<AuthService>(
-      () => AuthServiceImpl(authDataRepository: serviceLocator()),
+    ..registerSingleton<AuthService>(
+      AuthServiceImpl(authDataRepository: serviceLocator()),
     )
     ..registerFactory<StatisticsService>(
       () => StatisticsServiceImpl(repository: serviceLocator()),
@@ -76,5 +77,8 @@ void setup() {
     )
     ..registerFactory<SignUpBloc>(
       () => SignUpBlocImpl(authService: serviceLocator()),
+    )
+    ..registerFactory<TaskSelectBloc>(
+      () => TaskSelectBlocImpl(themeService: serviceLocator()),
     );
 }

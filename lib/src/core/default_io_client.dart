@@ -6,7 +6,6 @@ class DefaultIOClient {
   DefaultIOClient();
   Map<String, String> get defaultHeaders => {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
-  @override
   Future<http.Response> get(
     final Uri url, {
     final Map<String, String>? headers,
@@ -16,7 +15,6 @@ class DefaultIOClient {
     return result;
   }
 
-  @override
   Future<http.Response> put(
     final Uri url, {
     final Map<String, String>? headers,
@@ -28,7 +26,6 @@ class DefaultIOClient {
     return result;
   }
 
-  @override
   Future<http.Response> delete(
     final Uri url, {
     final Map<String, String>? headers,
@@ -40,7 +37,6 @@ class DefaultIOClient {
     return result;
   }
 
-  @override
   Future<http.Response> post(
     final Uri url, {
     final Map<String, String>? headers,

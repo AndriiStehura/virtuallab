@@ -7,9 +7,9 @@ class User {
   final String email;
   final String firstName;
   final String lastName;
-  final String group;
-  final int identityId;
-  final Identity identity;
+  final String? group;
+  final int? identityId;
+  final Identity? identity;
   final bool isAdmin;
   User({
     required this.id,
@@ -52,7 +52,7 @@ class User {
       'lastName': lastName,
       'group': group,
       'identityId': identityId,
-      'identity': identity.toMap(),
+      'identity': identity?.toMap(),
       'isAdmin': isAdmin,
     };
   }
@@ -65,7 +65,7 @@ class User {
       lastName: map['lastName'],
       group: map['group'],
       identityId: map['identityId'],
-      identity: Identity.fromMap(map['identity']),
+      identity: map['identity'] != null ? Identity.fromMap(map['identity']) : null,
       isAdmin: map['isAdmin'],
     );
   }
@@ -101,6 +101,10 @@ class User {
         identity.hashCode ^
         isAdmin.hashCode;
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }
 
 class UserMapper {
