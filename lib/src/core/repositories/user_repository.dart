@@ -74,7 +74,7 @@ class UserRepositoryImpl extends RequestRepository implements UserRepository {
 
     final response = await client.put(uri, body: body);
 
-    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Get user failed'));
+    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Update user failed'));
 
     return const Result.success(true);
   }

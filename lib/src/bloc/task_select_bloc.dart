@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:virtuallab/src/core/models/task/compexity.dart';
+import 'package:virtuallab/src/core/models/task/lab_task.dart';
 import 'package:virtuallab/src/core/models/task/theme.dart';
+import 'package:virtuallab/src/core/services/task_service.dart';
 import 'package:virtuallab/src/core/services/theme_service.dart';
 
 class TaskSelectState {
@@ -57,12 +59,16 @@ abstract class TaskSelectBloc {
   TaskSelectState get initial;
 
   Future<void> fetchThemes();
+  Future<LabTask?> fetchTask(Theme theme, Complexity complexity);
 }
 
 class TaskSelectBlocImpl implements TaskSelectBloc {
-  TaskSelectBlocImpl({required ThemeService themeService}) : _themeService = themeService;
+  TaskSelectBlocImpl({required ThemeService themeService, required TaskService taskService})
+      : _themeService = themeService,
+        _taskService = taskService;
 
   final ThemeService _themeService;
+  final TaskService _taskService;
 
   StreamSink<TaskSelectState> get sink => _subject.sink;
 
@@ -90,6 +96,17 @@ class TaskSelectBlocImpl implements TaskSelectBloc {
         isFetching: false,
         themes: [],
       ));
+    }
+  }
+
+  @override
+  Future<LabTask?> fetchTask(Theme theme, Complexity complexity) async {
+    final result = await _taskService.getTaskByFilter(themeId: theme.id, complexity: complexity);
+
+    if (result.exceptionOrNull != null) {
+      return null;
+    } else {
+      return result.valueOrNull;
     }
   }
 

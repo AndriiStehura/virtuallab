@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
 
     widget.bloc.state.listen((event) async {
       if (event.isSingedUp) {
-        Navigator.of(context).pushReplacement(createRoute(MainPage()));
+        Navigator.of(context).pushReplacement(createRoute(const MainPage()));
       } else if (event.hasError) {
         Fluttertoast.showToast(msg: 'Invalid login');
       }
@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               _emailField,
                               _passwordField,
-                              Container(
+                              SizedBox(
                                 height: 45.0,
                                 width: double.infinity,
                                 child: Hero(

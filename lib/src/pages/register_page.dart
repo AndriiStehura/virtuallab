@@ -28,7 +28,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     widget.bloc.state.listen((event) async {

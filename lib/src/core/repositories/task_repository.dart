@@ -15,8 +15,7 @@ import '../default_io_client.dart';
 abstract class TaskRepository implements Repository {
   Future<Result<List<LabTask>, Exception>> getTasks();
   Future<Result<LabTask, Exception>> getTask(int id);
-  Future<Result<List<LabTask>, Exception>> getTaskByFilter(
-    int id, {
+  Future<Result<LabTask, Exception>> getTaskByFilter({
     required int themeId,
     required Complexity complexity,
   });
@@ -95,10 +94,9 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
   }
 
   @override
-  Future<Result<List<LabTask>, Exception>> getTaskByFilter(int id,
-      {required int themeId, required Complexity complexity}) async {
+  Future<Result<LabTask, Exception>> getTaskByFilter({required int themeId, required Complexity complexity}) async {
     final uri = requestUri(LabApiRequest.taskByFilter, queryParameters: {
-      'ThemeId': '$id',
+      'ThemeId': '$themeId',
       'Complexity': complexity.toFilter(),
     });
 
@@ -106,11 +104,11 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
 
     if (response.statusCode != HttpStatus.ok) {
       return Result.failed(
-        Exception('Get task failed id: $id themeid: $themeId, complexity: ${complexity.toFilter()}'),
+        Exception('Get task failed  themeid: $themeId, complexity: ${complexity.toFilter()}'),
       );
     }
 
-    final data = mapper.fromListJson(codec.decode(response.body));
+    final data = mapper.fromJson(codec.decode(response.body));
 
     return Result.success(data);
   }

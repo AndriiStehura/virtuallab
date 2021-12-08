@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:html';
 
 import 'package:flutter/foundation.dart';
@@ -16,12 +18,18 @@ abstract class AuthService {
   Future<Result<bool, Exception>> tryAutologin();
 
   User? get currentUser;
+
+  set currentUser(User? user);
 }
 
 class AuthServiceImpl implements AuthService {
   User? _user;
 
+  @override
   User? get currentUser => _user;
+
+  @override
+  set currentUser(User? user) => _user = user;
 
   AuthServiceImpl({
     required AuthDataRepository authDataRepository,

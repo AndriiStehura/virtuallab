@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:virtuallab/src/colors.dart';
+import 'package:virtuallab/src/pages/profile_page.dart';
+import 'package:virtuallab/src/pages/transition.dart';
+import 'package:virtuallab/src/service_locator.dart';
 
-TextStyle get buttonStyle => TextStyle(fontSize: 14, color: Colors.white70);
+TextStyle get buttonStyle => const TextStyle(fontSize: 14, color: Colors.white70);
 
-AppBar getHeader() => AppBar(
+AppBar getHeader(BuildContext context) => AppBar(
       backgroundColor: headerColor,
       leading: const Icon(Icons.lock_clock),
       actions: [
@@ -15,6 +18,10 @@ AppBar getHeader() => AppBar(
           onPressed: () {},
           child: Text('About', style: buttonStyle),
         ),
-        IconButton(onPressed: () {}, icon: Icon(Icons.person)),
+        IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(createRoute(ProfilePage(bloc: serviceLocator())));
+            },
+            icon: const Icon(Icons.person)),
       ],
     );

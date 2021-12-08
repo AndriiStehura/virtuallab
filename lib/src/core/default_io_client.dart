@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
 class DefaultIOClient {
@@ -21,7 +20,7 @@ class DefaultIOClient {
     final dynamic body,
     final Encoding? encoding,
   }) async {
-    final result = await http.put(url, headers: headers);
+    final result = await http.put(url, body: body, headers: headers ?? defaultHeaders);
 
     return result;
   }
@@ -48,6 +47,5 @@ class DefaultIOClient {
     return result;
   }
 
-  @override
   void close() {}
 }

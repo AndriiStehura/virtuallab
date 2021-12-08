@@ -10,8 +10,7 @@ import 'package:virtuallab/src/core/result.dart';
 abstract class TaskService {
   Future<Result<List<LabTask>, Exception>> getTasks();
   Future<Result<LabTask, Exception>> getTask(int id);
-  Future<Result<List<LabTask>, Exception>> getTaskByFilter(
-    int id, {
+  Future<Result<LabTask, Exception>> getTaskByFilter({
     required int themeId,
     required Complexity complexity,
   });
@@ -71,12 +70,11 @@ class TaskServiceImpl implements TaskService {
   }
 
   @override
-  Future<Result<List<LabTask>, Exception>> getTaskByFilter(
-    int id, {
+  Future<Result<LabTask, Exception>> getTaskByFilter({
     required int themeId,
     required Complexity complexity,
   }) async {
-    final result = await _repository.getTaskByFilter(id, themeId: themeId, complexity: complexity);
+    final result = await _repository.getTaskByFilter(themeId: themeId, complexity: complexity);
 
     if (result.exceptionOrNull != null) {
       debugPrint(result.exception.toString());

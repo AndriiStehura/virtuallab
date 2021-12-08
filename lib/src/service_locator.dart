@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart';
 import 'package:virtuallab/src/bloc/auth_bloc.dart';
+import 'package:virtuallab/src/bloc/profile_bloc.dart';
 import 'package:virtuallab/src/bloc/task_select_bloc.dart';
 import 'package:virtuallab/src/core/default_io_client.dart';
 import 'package:virtuallab/src/core/models/task/answer.dart';
@@ -79,6 +79,9 @@ void setup() {
       () => SignUpBlocImpl(authService: serviceLocator()),
     )
     ..registerFactory<TaskSelectBloc>(
-      () => TaskSelectBlocImpl(themeService: serviceLocator()),
+      () => TaskSelectBlocImpl(themeService: serviceLocator(), taskService: serviceLocator()),
+    )
+    ..registerFactory<ProfileBloc>(
+      () => ProfileBlocImpl(authService: serviceLocator(), userService: serviceLocator()),
     );
 }

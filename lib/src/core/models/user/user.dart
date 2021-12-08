@@ -51,7 +51,7 @@ class User {
       'firstName': firstName,
       'lastName': lastName,
       'group': group,
-      'identityId': identityId,
+      'identityId': identityId ?? 0,
       'identity': identity?.toMap(),
       'isAdmin': isAdmin,
     };

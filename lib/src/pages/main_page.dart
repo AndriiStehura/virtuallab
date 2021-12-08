@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getHeader(),
+      appBar: getHeader(context),
       body: Column(
         children: [
           const SizedBox(

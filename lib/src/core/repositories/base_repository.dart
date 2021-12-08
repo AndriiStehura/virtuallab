@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:get_it/get_it.dart';
 import 'package:virtuallab/src/core/api_request.dart';
 import 'package:virtuallab/src/core/extensions/map.dart';
 
@@ -9,7 +8,6 @@ abstract class Repository {}
 class RequestRepository implements Repository {
   String get apiPath => 'localhost:44366';
 
-  @override
   FutureOr onDispose() {}
 
   Uri requestUri(
