@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:virtuallab/src/bloc/auth_bloc.dart';
 import 'package:virtuallab/src/bloc/profile_bloc.dart';
+import 'package:virtuallab/src/bloc/statistics_bloc.dart';
+import 'package:virtuallab/src/bloc/task_creation_bloc.dart';
+import 'package:virtuallab/src/bloc/task_passing_bloc.dart';
 import 'package:virtuallab/src/bloc/task_select_bloc.dart';
 import 'package:virtuallab/src/core/default_io_client.dart';
 import 'package:virtuallab/src/core/models/task/answer.dart';
@@ -83,5 +86,14 @@ void setup() {
     )
     ..registerFactory<ProfileBloc>(
       () => ProfileBlocImpl(authService: serviceLocator(), userService: serviceLocator()),
+    )
+    ..registerFactory<StatisticsBloc>(
+      () => StatisticsBlocImpl(authService: serviceLocator(), statisticsService: serviceLocator()),
+    )
+    ..registerFactory<TaskPassingBloc>(
+      () => TaskPassingBlocImpl(authService: serviceLocator(), taskService: serviceLocator()),
+    )
+    ..registerFactory<TaskCreationBloc>(
+      () => TaskCreationBlocImpl(themeService: serviceLocator(), taskService: serviceLocator()),
     );
 }

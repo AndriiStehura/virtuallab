@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:virtuallab/src/bloc/profile_bloc.dart';
+import 'package:virtuallab/src/colors.dart';
 import 'package:virtuallab/src/components/header.dart';
 import 'package:virtuallab/src/core/models/user/identity.dart';
-import 'package:virtuallab/src/core/models/user/user.dart';
 import 'package:virtuallab/src/core/utils/string.dart';
+import 'package:virtuallab/src/pages/statistics_page.dart';
+import 'package:virtuallab/src/pages/task_creation_page.dart';
+import 'package:virtuallab/src/pages/transition.dart';
+import 'package:virtuallab/src/service_locator.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.bloc}) : super(key: key);
@@ -27,7 +31,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final user = widget.bloc.initial.user!;
 
@@ -96,108 +99,148 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: getHeader(context),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Profile',
-                  style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                ),
-              ),
-              //  VerticalDivider(),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Statistics',
-                  style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: Card(
-                child: StreamBuilder<ProfileState>(
-                    stream: widget.bloc.state,
-                    initialData: widget.bloc.initial,
-                    builder: (context, snapshot) {
-                      final state = snapshot.data!;
-
-                      if (state.isFetching) return const CircularProgressIndicator();
-
-                      return Column(
-                        children: [
-                          if (state.user?.isAdmin ?? false)
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: ElevatedButton(
-                                child: Text('Admin page'),
-                                onPressed: () {},
-                              ),
-                            ),
-                          Form(
-                            key: _formKey,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      _firstnameField,
-                                      _lastnameField,
-                                      _loginField,
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 50.0,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      _passwordField,
-                                      _confirmPasswordField,
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: ElevatedButton(
-                              child: Text('Save'),
-                              onPressed: () {
-                                if (_formKey.currentState?.validate() ?? false) {
-                                  final oldData = widget.bloc.initial.user!;
-
-                                  final user = oldData.copyWith(
-                                    email: _loginController.text,
-                                    firstName: _firstnameController.text,
-                                    lastName: _lastnameController.text,
-                                    group: '',
-                                    identity: _passwordController.text.isBlank
-                                        ? Identity(id: 0, passwordHash: _passwordController.text)
-                                        : null,
-                                    isAdmin: false,
-                                  );
-
-                                  widget.bloc.saveProfile(user);
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
+      body: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: Row(
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Profile',
+                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: backgroundTextColor),
+                    ),
+                  ),
+                  const VerticalDivider(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(createRoute(StatisticsPage(bloc: serviceLocator())));
+                    },
+                    child: const Text(
+                      'Statistics',
+                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
+                    ),
+                  ),
+                ],
               ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Card(
+                  elevation: 6.0,
+                  child: StreamBuilder<ProfileState>(
+                      stream: widget.bloc.state,
+                      initialData: widget.bloc.initial,
+                      builder: (context, snapshot) {
+                        final state = snapshot.data!;
+
+                        if (state.isFetching) return const CircularProgressIndicator();
+
+                        return Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Column(
+                            children: [
+                              if (state.user?.isAdmin ?? false)
+                                Container(
+                                  alignment: Alignment.topRight,
+                                  child: ElevatedButton(
+                                    child: const Text('Admin page'),
+                                    style: ButtonStyle(
+                                      fixedSize: MaterialStateProperty.all<Size>(const Size(150.0, 35.0)),
+                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12.0),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(createRoute(TaskCreationPage(
+                                        bloc: serviceLocator(),
+                                      )));
+                                    },
+                                  ),
+                                ),
+                              Form(
+                                key: _formKey,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          _firstnameField,
+                                          _lastnameField,
+                                          _loginField,
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 50.0,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          _passwordField,
+                                          _confirmPasswordField,
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: SizedBox(
+                                  height: 35.0,
+                                  width: 150.0,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      fixedSize: MaterialStateProperty.all<Size>(const Size(150.0, 35.0)),
+                                      backgroundColor: MaterialStateProperty.all<Color>(headerColor),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12.0),
+                                        ),
+                                      ),
+                                    ),
+                                    child: const Text('Save'),
+                                    onPressed: () {
+                                      if (_formKey.currentState?.validate() ?? false) {
+                                        final oldData = widget.bloc.initial.user!;
+
+                                        final user = oldData.copyWith(
+                                          email: _loginController.text,
+                                          firstName: _firstnameController.text,
+                                          lastName: _lastnameController.text,
+                                          group: '',
+                                          identity: _passwordController.text.isBlank
+                                              ? Identity(id: 0, passwordHash: _passwordController.text)
+                                              : null,
+                                          isAdmin: false,
+                                        );
+
+                                        widget.bloc.saveProfile(user);
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

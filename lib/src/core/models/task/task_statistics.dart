@@ -89,4 +89,12 @@ class TaskStatisticsMapper {
   String toJson(TaskStatistics object) => json.encode(object.toMap());
 
   TaskStatistics fromJson(String source) => TaskStatistics.fromMap(json.decode(source));
+
+  List<TaskStatistics> fromJsonList(String source) {
+    final data = json.decode(source);
+
+    final themes = data.map<TaskStatistics>((e) => TaskStatistics.fromMap(e as Map<String, dynamic>));
+
+    return themes.toList();
+  }
 }

@@ -10,7 +10,7 @@ import 'package:virtuallab/src/core/repositories/base_repository.dart';
 import '../result.dart';
 
 abstract class StatisticsRepository implements Repository {
-  Future<Result<TaskStatistics, Exception>> getStatistics(int id);
+  Future<Result<List<TaskStatistics>, Exception>> getStatistics(int id);
 }
 
 class StatisticsRepositoryImpl extends RequestRepository implements StatisticsRepository {
@@ -25,14 +25,14 @@ class StatisticsRepositoryImpl extends RequestRepository implements StatisticsRe
   final JsonCodec codec;
 
   @override
-  Future<Result<TaskStatistics, Exception>> getStatistics(int id) async {
+  Future<Result<List<TaskStatistics>, Exception>> getStatistics(int id) async {
     final uri = requestUri(LabApiRequest.statistics, parameters: {'id': '$id'});
 
     final response = await client.post(uri);
 
     if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Fetch statistics failed'));
 
-    final data = mapper.fromJson(response.body);
+    final data = mapper.fromJsonList(response.body);
 
     return Result.success(data);
   }

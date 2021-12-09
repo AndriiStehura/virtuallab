@@ -48,21 +48,19 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final _emailField = SizedBox(
-        height: 45.0,
         child: TextFormField(
-          controller: _emailController,
-          validator: (value) {
-            return value.isBlank ? 'Provide a valid email name' : null;
-          },
-          decoration: InputDecoration(
-            label: const Text('Email'),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        ));
+      controller: _emailController,
+      validator: (value) {
+        return value.isBlank ? 'Provide a valid email name' : null;
+      },
+      decoration: InputDecoration(
+        label: const Text('Email'),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+    ));
     final _passwordField = Container(
-        height: 45.0,
         margin: const EdgeInsets.symmetric(vertical: 24.0),
         child: TextFormField(
           controller: _passwordController,
@@ -127,8 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                               _emailField,
                               _passwordField,
                               SizedBox(
-                                height: 45.0,
                                 width: double.infinity,
+                                height: 45.0,
                                 child: Hero(
                                   tag: 'oleg',
                                   child: ElevatedButton(

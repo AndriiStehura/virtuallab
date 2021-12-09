@@ -66,7 +66,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 final _firstnameField = Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    height: 45.0,
                     child: TextFormField(
                       controller: _firstnameController,
                       validator: (value) {
@@ -75,7 +74,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: const InputDecoration(label: Text('First name*')),
                     ));
                 final _lastnameField = Container(
-                    height: 45.0,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextFormField(
                       controller: _lastnameController,
@@ -85,7 +83,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: const InputDecoration(label: Text('Last name*')),
                     ));
                 final _emailField = Container(
-                    height: 45.0,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextFormField(
                       controller: _emailController,
@@ -95,7 +92,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: const InputDecoration(label: Text('Email*')),
                     ));
                 final _passwordField = Container(
-                    height: 45.0,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextFormField(
                       controller: _passwordController,
@@ -105,7 +101,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ));
                 final _confirmPasswordField = Container(
-                    height: 45.0,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextFormField(
                       controller: _confirmPasswordController,
@@ -154,7 +149,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 height: 20,
                               ),
                               SizedBox(
-                                height: 45.0,
                                 width: double.infinity,
                                 child: Hero(
                                   tag: 'oleg',

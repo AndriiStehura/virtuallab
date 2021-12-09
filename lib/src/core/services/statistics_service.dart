@@ -8,7 +8,7 @@ import 'package:virtuallab/src/core/repositories/statistics_repository.dart';
 import '../result.dart';
 
 abstract class StatisticsService {
-  Future<Result<TaskStatistics, Exception>> getStatistics(int id);
+  Future<Result<List<TaskStatistics>, Exception>> getStatistics(int id);
 }
 
 class StatisticsServiceImpl implements StatisticsService {
@@ -17,7 +17,7 @@ class StatisticsServiceImpl implements StatisticsService {
   final StatisticsRepository _repository;
 
   @override
-  Future<Result<TaskStatistics, Exception>> getStatistics(int id) async {
+  Future<Result<List<TaskStatistics>, Exception>> getStatistics(int id) async {
     final result = await _repository.getStatistics(id);
 
     if (result.exceptionOrNull != null) {

@@ -7,6 +7,7 @@ import 'package:virtuallab/src/core/models/task/compexity.dart';
 import 'package:virtuallab/src/core/models/task/theme.dart' as model;
 import 'package:virtuallab/src/pages/task_passing_page.dart';
 import 'package:virtuallab/src/pages/transition.dart';
+import 'package:virtuallab/src/service_locator.dart';
 
 class TaskSelectPage extends StatefulWidget {
   const TaskSelectPage({Key? key, required this.bloc}) : super(key: key);
@@ -120,7 +121,10 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
 
                                           if (task != null) {
                                             Navigator.of(context).pushReplacement(
-                                              createRoute(TaskPassingPage(task: task)),
+                                              createRoute(TaskPassingPage(
+                                                task: task,
+                                                bloc: serviceLocator(),
+                                              )),
                                             );
                                           } else {
                                             Fluttertoast.showToast(msg: 'No task found');
