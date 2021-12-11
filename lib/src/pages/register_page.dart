@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Navigator.of(context).pushReplacement(createRoute(LoginPage(bloc: serviceLocator())));
         Fluttertoast.showToast(msg: 'Login using your credentials');
       } else if (event.hasError) {
-        Fluttertoast.showToast(msg: 'Invalid login');
+        Fluttertoast.showToast(msg: 'Invalid login', webBgColor: 'red');
       }
     });
   }
@@ -71,7 +71,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: (value) {
                         return value.isBlank ? 'Provide a valid first name' : null;
                       },
-                      decoration: const InputDecoration(label: Text('First name*')),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor, width: 1.0),
+                          ),
+                          label: const Text('First name*')),
                     ));
                 final _lastnameField = Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -80,7 +90,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: (value) {
                         return value.isBlank ? 'Provide a valid last name' : null;
                       },
-                      decoration: const InputDecoration(label: Text('Last name*')),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor, width: 1.0),
+                          ),
+                          label: Text('Last name*')),
                     ));
                 final _emailField = Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -89,13 +109,33 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: (value) {
                         return value.isBlank ? 'Provide a valid email name' : null;
                       },
-                      decoration: const InputDecoration(label: Text('Email*')),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor, width: 1.0),
+                          ),
+                          label: Text('Email*')),
                     ));
                 final _passwordField = Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextFormField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(label: Text('Password*')),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor, width: 1.0),
+                          ),
+                          label: Text('Password*')),
                       validator: (value) {
                         return value.isBlank ? 'Provide a valid password' : null;
                       },
@@ -111,7 +151,17 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ? null
                                 : 'Passwords do not match';
                       },
-                      decoration: const InputDecoration(label: Text('Confirm Password*')),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: headerColor, width: 1.0),
+                          ),
+                          label: Text('Confirm Password*')),
                     ));
 
                 return Center(

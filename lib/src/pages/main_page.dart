@@ -74,7 +74,7 @@ class MainPage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       height: 300,
-      width: 240,
+      width: 220,
       child: Card(
         elevation: 8.0,
         child: InkWell(
@@ -87,6 +87,7 @@ class MainPage extends StatelessWidget {
                 SizedBox(height: 100, child: icon),
                 Text(
                   headerText,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 18.0),
                 ),
                 const SizedBox(height: 16),

@@ -24,7 +24,8 @@ import 'package:virtuallab/src/core/services/auth_service.dart';
 import 'package:virtuallab/src/core/services/statistics_service.dart';
 import 'package:virtuallab/src/core/services/task_service.dart';
 import 'package:virtuallab/src/core/services/theme_service.dart';
-import 'package:virtuallab/src/core/services/user_response.dart';
+
+import 'core/services/user_service.dart';
 
 final serviceLocator = GetIt.instance;
 

@@ -15,4 +15,5 @@ class LabApiRequest extends ApiRequest {
   static const tasks = LabApiRequest('/Tasks');
   static const themes = LabApiRequest('/Themes');
   static const users = LabApiRequest('/User');
+  static const password = LabApiRequest('/User/password');
 }

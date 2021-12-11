@@ -5,6 +5,8 @@ import 'package:virtuallab/src/bloc/profile_bloc.dart';
 import 'package:virtuallab/src/colors.dart';
 import 'package:virtuallab/src/components/header.dart';
 import 'package:virtuallab/src/core/models/user/identity.dart';
+import 'package:virtuallab/src/core/models/user/update_password.dart';
+import 'package:virtuallab/src/core/models/user/update_user.dart';
 import 'package:virtuallab/src/core/utils/string.dart';
 import 'package:virtuallab/src/pages/statistics_page.dart';
 import 'package:virtuallab/src/pages/task_creation_page.dart';
@@ -42,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (event.isSaved) {
         Fluttertoast.showToast(msg: 'Saved changes');
       } else if (event.hasError) {
-        Fluttertoast.showToast(msg: 'We\'ve encountered an error saving your data');
+        Fluttertoast.showToast(msg: 'We\'ve encountered an error saving your data', webBgColor: 'red');
       }
     });
   }
@@ -57,7 +59,17 @@ class _ProfilePageState extends State<ProfilePage> {
           validator: (value) {
             return value.isBlank ? 'Provide a valid first name' : null;
           },
-          decoration: const InputDecoration(label: Text('First name*')),
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor, width: 1.0),
+              ),
+              label: Text('First name*')),
         ));
     final _lastnameField = Container(
         height: 45.0,
@@ -67,7 +79,17 @@ class _ProfilePageState extends State<ProfilePage> {
           validator: (value) {
             return value.isBlank ? 'Provide a valid last name' : null;
           },
-          decoration: const InputDecoration(label: Text('Last name*')),
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor, width: 1.0),
+              ),
+              label: Text('Last name*')),
         ));
     final _loginField = Container(
         height: 45.0,
@@ -77,14 +99,34 @@ class _ProfilePageState extends State<ProfilePage> {
           validator: (value) {
             return value.isBlank ? 'Provide a valid login' : null;
           },
-          decoration: const InputDecoration(label: Text('Email*')),
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor, width: 1.0),
+              ),
+              label: Text('Email*')),
         ));
     final _passwordField = Container(
         height: 45.0,
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         child: TextFormField(
           controller: _passwordController,
-          decoration: const InputDecoration(label: Text('Password*')),
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor, width: 1.0),
+              ),
+              label: Text('Password*')),
         ));
     final _confirmPasswordField = Container(
         height: 45.0,
@@ -94,154 +136,171 @@ class _ProfilePageState extends State<ProfilePage> {
           validator: (value) {
             return value == _passwordController.text ? null : 'Passwords do not match';
           },
-          decoration: const InputDecoration(label: Text('Confirm Password*')),
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: headerColor, width: 1.0),
+              ),
+              label: Text('Confirm Password*')),
         ));
 
     return Scaffold(
       appBar: getHeader(context),
-      body: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: Row(
+      body: StreamBuilder<ProfileState>(
+          stream: widget.bloc.state,
+          initialData: widget.bloc.initial,
+          builder: (context, snapshot) {
+            final state = snapshot.data!;
+
+            if (state.isFetching) return const Center(child: CircularProgressIndicator());
+
+            return Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Profile',
-                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: backgroundTextColor),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    child: Row(
+                      children: [
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Profile',
+                            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: backgroundTextColor),
+                          ),
+                        ),
+                        const VerticalDivider(),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(createRoute(StatisticsPage(bloc: serviceLocator())));
+                          },
+                          child: const Text(
+                            'Statistics',
+                            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const VerticalDivider(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(createRoute(StatisticsPage(bloc: serviceLocator())));
-                    },
-                    child: const Text(
-                      'Statistics',
-                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
+                  Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Card(
+                          elevation: 6.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(32.0),
+                            child: Column(
+                              children: [
+                                if (state.user?.isAdmin ?? false)
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 20),
+                                    alignment: Alignment.topRight,
+                                    child: ElevatedButton(
+                                      child: const Text('Admin page'),
+                                      style: ButtonStyle(
+                                        fixedSize: MaterialStateProperty.all<Size>(const Size(150.0, 35.0)),
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12.0),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pushReplacement(createRoute(TaskCreationPage(
+                                          bloc: serviceLocator(),
+                                        )));
+                                      },
+                                    ),
+                                  ),
+                                Form(
+                                  key: _formKey,
+                                  child: Container(
+                                    height: 200,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              _firstnameField,
+                                              _lastnameField,
+                                              _loginField,
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 50.0,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              _passwordField,
+                                              _confirmPasswordField,
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: SizedBox(
+                                    height: 35.0,
+                                    width: 150.0,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                        fixedSize: MaterialStateProperty.all<Size>(const Size(150.0, 35.0)),
+                                        backgroundColor: MaterialStateProperty.all<Color>(headerColor),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12.0),
+                                          ),
+                                        ),
+                                      ),
+                                      child: const Text('Save'),
+                                      onPressed: () {
+                                        if (_formKey.currentState?.validate() ?? false) {
+                                          final oldData = widget.bloc.initial.user!;
+
+                                          final user = UpdateUser(
+                                            id: oldData.id,
+                                            email: _loginController.text,
+                                            firstName: _firstnameController.text,
+                                            lastName: _lastnameController.text,
+                                            group: '',
+                                          );
+
+                                          final password = _confirmPasswordController.text.isNotBlank
+                                              ? UpdatePassword(
+                                                  userId: oldData.id, password: _confirmPasswordController.text)
+                                              : null;
+
+                                          widget.bloc.saveProfile(user, password);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
                     ),
-                  ),
+                  )
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: Card(
-                  elevation: 6.0,
-                  child: StreamBuilder<ProfileState>(
-                      stream: widget.bloc.state,
-                      initialData: widget.bloc.initial,
-                      builder: (context, snapshot) {
-                        final state = snapshot.data!;
-
-                        if (state.isFetching) return const CircularProgressIndicator();
-
-                        return Padding(
-                          padding: const EdgeInsets.all(32.0),
-                          child: Column(
-                            children: [
-                              if (state.user?.isAdmin ?? false)
-                                Container(
-                                  alignment: Alignment.topRight,
-                                  child: ElevatedButton(
-                                    child: const Text('Admin page'),
-                                    style: ButtonStyle(
-                                      fixedSize: MaterialStateProperty.all<Size>(const Size(150.0, 35.0)),
-                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12.0),
-                                        ),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pushReplacement(createRoute(TaskCreationPage(
-                                        bloc: serviceLocator(),
-                                      )));
-                                    },
-                                  ),
-                                ),
-                              Form(
-                                key: _formKey,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          _firstnameField,
-                                          _lastnameField,
-                                          _loginField,
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 50.0,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          _passwordField,
-                                          _confirmPasswordField,
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: SizedBox(
-                                  height: 35.0,
-                                  width: 150.0,
-                                  child: ElevatedButton(
-                                    style: ButtonStyle(
-                                      fixedSize: MaterialStateProperty.all<Size>(const Size(150.0, 35.0)),
-                                      backgroundColor: MaterialStateProperty.all<Color>(headerColor),
-                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12.0),
-                                        ),
-                                      ),
-                                    ),
-                                    child: const Text('Save'),
-                                    onPressed: () {
-                                      if (_formKey.currentState?.validate() ?? false) {
-                                        final oldData = widget.bloc.initial.user!;
-
-                                        final user = oldData.copyWith(
-                                          email: _loginController.text,
-                                          firstName: _firstnameController.text,
-                                          lastName: _lastnameController.text,
-                                          group: '',
-                                          identity: _passwordController.text.isBlank
-                                              ? Identity(id: 0, passwordHash: _passwordController.text)
-                                              : null,
-                                          isAdmin: false,
-                                        );
-
-                                        widget.bloc.saveProfile(user);
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 }

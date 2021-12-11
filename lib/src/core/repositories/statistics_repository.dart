@@ -28,7 +28,7 @@ class StatisticsRepositoryImpl extends RequestRepository implements StatisticsRe
   Future<Result<List<TaskStatistics>, Exception>> getStatistics(int id) async {
     final uri = requestUri(LabApiRequest.statistics, parameters: {'id': '$id'});
 
-    final response = await client.post(uri);
+    final response = await client.get(uri);
 
     if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Fetch statistics failed'));
 

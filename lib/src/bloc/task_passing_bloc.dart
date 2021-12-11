@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/streams.dart';
 import 'package:virtuallab/src/core/models/task/answer.dart';
+import 'package:virtuallab/src/core/models/task/grade.dart';
 import 'package:virtuallab/src/core/models/task/lab_task.dart';
 import 'package:virtuallab/src/core/services/auth_service.dart';
 import 'package:virtuallab/src/core/services/task_service.dart';
@@ -66,7 +67,7 @@ abstract class TaskPassingBloc {
   ValueStream<TaskPassingState> get state;
   TaskPassingState get initial;
 
-  Future<void> submitTask(LabTask task, String answer);
+  Future<Grade?> submitTask(LabTask task, String answer);
 }
 
 class TaskPassingBlocImpl implements TaskPassingBloc {
@@ -88,7 +89,7 @@ class TaskPassingBlocImpl implements TaskPassingBloc {
   TaskPassingState get initial => TaskPassingState(hasError: false, isSubmitted: false, isWaiting: false);
 
   @override
-  Future<void> submitTask(LabTask task, String answer) async {
+  Future<Grade?> submitTask(LabTask task, String answer) async {
     sink.add(TaskPassingState(isWaiting: true, hasError: false, isSubmitted: false));
 
     final userAnswer = Answer(answer: answer, taskId: task.id, userId: _authService.currentUser!.id);
@@ -99,5 +100,6 @@ class TaskPassingBlocImpl implements TaskPassingBloc {
     } else {
       sink.add(TaskPassingState(isSubmitted: false, hasError: true, isWaiting: false));
     }
+    return result.valueOrNull;
   }
 }

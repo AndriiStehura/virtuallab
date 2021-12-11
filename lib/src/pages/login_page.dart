@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       if (event.isSingedUp) {
         Navigator.of(context).pushReplacement(createRoute(const MainPage()));
       } else if (event.hasError) {
-        Fluttertoast.showToast(msg: 'Invalid login');
+        Fluttertoast.showToast(msg: 'Invalid login', webBgColor: 'red');
       }
     });
 
@@ -58,6 +58,12 @@ class _LoginPageState extends State<LoginPage> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: headerColor, width: 1.0),
+        ),
       ),
     ));
     final _passwordField = Container(
@@ -68,6 +74,12 @@ class _LoginPageState extends State<LoginPage> {
             return value.isBlank ? 'Provide a valid password' : null;
           },
           decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
+            ),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: headerColor, width: 1.0),
+            ),
             label: const Text('Password'),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),

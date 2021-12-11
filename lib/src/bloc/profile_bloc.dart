@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/streams.dart';
+import 'package:virtuallab/src/core/models/user/update_password.dart';
+import 'package:virtuallab/src/core/models/user/update_user.dart';
 import 'package:virtuallab/src/core/models/user/user.dart';
 import 'package:virtuallab/src/core/services/auth_service.dart';
-import 'package:virtuallab/src/core/services/user_response.dart';
+import 'package:virtuallab/src/core/services/user_service.dart';
 
 class ProfileState {
   final bool isFetching;
@@ -53,7 +55,7 @@ abstract class ProfileBloc {
   ValueStream<ProfileState> get state;
   ProfileState get initial;
 
-  Future<void> saveProfile(User user);
+  Future<void> saveProfile(UpdateUser user, UpdatePassword? password);
 }
 
 class ProfileBlocImpl implements ProfileBloc {
@@ -76,15 +78,18 @@ class ProfileBlocImpl implements ProfileBloc {
       ProfileState(isFetching: false, isSaved: false, hasError: false, user: _authService.currentUser!);
 
   @override
-  Future<void> saveProfile(User user) async {
+  Future<void> saveProfile(UpdateUser user, UpdatePassword? password) async {
     sink.add(ProfileState(isFetching: true, isSaved: false, hasError: false, user: null));
 
     final result = await _userService.updateUser(user);
 
+    if (password != null) await _userService.updatePassword(password);
+
     if (result.exceptionOrNull != null) {
       sink.add(ProfileState(isFetching: false, isSaved: false, hasError: true, user: null));
     } else {
-      _authService.currentUser = user;
+      final newUser = await _userService.getUser(user.id);
+      _authService.currentUser = newUser.valueOrNull;
       sink.add(ProfileState(isFetching: false, isSaved: true, hasError: false, user: null));
     }
   }

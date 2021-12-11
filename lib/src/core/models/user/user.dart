@@ -66,7 +66,7 @@ class User {
       group: map['group'],
       identityId: map['identityId'],
       identity: map['identity'] != null ? Identity.fromMap(map['identity']) : null,
-      isAdmin: map['isAdmin'],
+      isAdmin: map['isAdmin'] ?? false,
     );
   }
 

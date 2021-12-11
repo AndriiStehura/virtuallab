@@ -9,7 +9,7 @@ class LabTask {
   final String answer;
   final Complexity complexity;
   final int themeId;
-  final Theme theme;
+  final Theme? theme;
 
   LabTask({
     required this.id,
@@ -44,19 +44,20 @@ class LabTask {
       'id': id,
       'description': description,
       'answer': answer,
+      'complexityLevel': complexity.index,
       'themeId': themeId,
-      'theme': theme.toMap(),
+      // 'theme': theme.toMap(),
     };
   }
 
   factory LabTask.fromMap(Map<String, dynamic> map) {
     return LabTask(
-      id: map['id'],
+      id: map['id'] as int,
       description: map['description'],
       answer: map['answer'],
-      complexity: ComplexityInit.init(map['complexity']),
+      complexity: ComplexityInit.init(map['complexityLevel']),
       themeId: map['themeId'],
-      theme: Theme.fromMap(map['theme']),
+      theme: map['theme'] != null ? Theme.fromMap(map['theme']) : null,
     );
   }
 

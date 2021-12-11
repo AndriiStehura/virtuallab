@@ -28,9 +28,6 @@ class RequestRepository implements Repository {
   }
 
   String _getPathWithParameters(ApiRequest request, final Map<String, String>? parameters) {
-    switch (request) {
-      default:
-        return '';
-    }
+    return '/Api' + request.name + (parameters?.values.map((e) => '/$e').join() ?? '');
   }
 }

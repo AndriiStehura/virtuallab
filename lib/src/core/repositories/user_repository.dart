@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:virtuallab/src/core/api_request.dart';
+import 'package:virtuallab/src/core/models/user/update_password.dart';
+import 'package:virtuallab/src/core/models/user/update_user.dart';
 import 'package:virtuallab/src/core/models/user/user.dart';
 
 import '../default_io_client.dart';
@@ -12,7 +14,8 @@ abstract class UserRepository implements Repository {
   Future<Result<List<User>, Exception>> getUsers();
   Future<Result<User, Exception>> getUser(int id);
   Future<Result<bool, Exception>> addUser(User user);
-  Future<Result<bool, Exception>> updateUser(User user);
+  Future<Result<bool, Exception>> updateUser(UpdateUser user);
+  Future<Result<bool, Exception>> updatePassword(UpdatePassword password);
 }
 
 class UserRepositoryImpl extends RequestRepository implements UserRepository {
@@ -67,14 +70,27 @@ class UserRepositoryImpl extends RequestRepository implements UserRepository {
   }
 
   @override
-  Future<Result<bool, Exception>> updateUser(User user) async {
+  Future<Result<bool, Exception>> updateUser(UpdateUser user) async {
     final uri = requestUri(LabApiRequest.users);
 
-    final body = mapper.toJson(user);
+    final body = user.toJson();
 
     final response = await client.put(uri, body: body);
 
     if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Update user failed'));
+
+    return const Result.success(true);
+  }
+
+  @override
+  Future<Result<bool, Exception>> updatePassword(UpdatePassword password) async {
+    final uri = requestUri(LabApiRequest.password);
+
+    final body = password.toJson();
+
+    final response = await client.put(uri, body: body);
+
+    if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Update password failed'));
 
     return const Result.success(true);
   }

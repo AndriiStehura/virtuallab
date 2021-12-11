@@ -77,7 +77,7 @@ abstract class StatisticsBloc {
   ValueStream<StatisticsState> get state;
   StatisticsState get initial;
 
-  Future<void> fetchStatistics(User user);
+  Future<void> fetchStatistics();
 }
 
 class StatisticsBlocImpl implements StatisticsBloc {
@@ -102,17 +102,16 @@ class StatisticsBlocImpl implements StatisticsBloc {
       );
 
   @override
-  Future<void> fetchStatistics(User user) async {
+  Future<void> fetchStatistics() async {
     sink.add(StatisticsState(isFetching: true, stats: null, hasError: false));
 
     final user = _authService.currentUser!;
 
     final result = await _statisticsService.getStatistics(user.id);
-    if (result.exceptionOrNull != null) {
-      sink.add(StatisticsState(isFetching: false, hasError: true, stats: result.valueOrNull));
+    if (result.value != null) {
+      sink.add(StatisticsState(isFetching: false, hasError: false, stats: result.valueOrNull));
     } else {
-      _authService.currentUser = user;
-      sink.add(StatisticsState(isFetching: false, hasError: false));
+      sink.add(StatisticsState(isFetching: false, hasError: true));
     }
   }
 }

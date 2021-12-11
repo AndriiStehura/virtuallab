@@ -24,10 +24,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
   @override
   void initState() {
     super.initState();
-
+    widget.bloc.fetchStatistics();
     widget.bloc.state.listen((event) async {
       if (event.hasError) {
-        Fluttertoast.showToast(msg: 'We\'ve encountered an error saving your data');
+        Fluttertoast.showToast(msg: 'We\'ve encountered an error saving your data', webBgColor: 'red');
       }
     });
   }
@@ -36,72 +36,169 @@ class _StatisticsPageState extends State<StatisticsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getHeader(context),
-      body: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: Row(
+      body: StreamBuilder<StatisticsState>(
+          stream: widget.bloc.state,
+          initialData: widget.bloc.initial,
+          builder: (context, snapshot) {
+            final state = snapshot.data!;
+            if (state.isFetching) return const CircularProgressIndicator();
+            if (state.stats == null || (state.stats?.isEmpty ?? false)) {
+              return const Center(
+                child: Text('No data found'),
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(createRoute(ProfilePage(
-                        bloc: serviceLocator(),
-                      )));
-                    },
-                    child: const Text(
-                      'Profile',
-                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    child: Row(
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(createRoute(ProfilePage(
+                              bloc: serviceLocator(),
+                            )));
+                          },
+                          child: const Text(
+                            'Profile',
+                            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
+                          ),
+                        ),
+                        const VerticalDivider(),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Statistics',
+                            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: backgroundTextColor),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const VerticalDivider(),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Statistics',
-                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: backgroundTextColor),
-                    ),
-                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Card(
+                        elevation: 6.0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: SingleChildScrollView(
+                            child: Table(
+                              children: [
+                                const TableRow(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(color: headerColor, width: 1.0),
+                                      ),
+                                    ),
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Text(
+                                          'Task',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: headerColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Text(
+                                          'Theme',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: headerColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Text(
+                                          'Complexity',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: headerColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Text(
+                                          'Grade',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: headerColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                                ...state.stats!
+                                    .map((stat) => TableRow(
+                                            decoration: const BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(color: headerColor, width: 0.5),
+                                              ),
+                                            ),
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(16.0),
+                                                child: Text(
+                                                  stat.task.description,
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: headerColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(16.0),
+                                                child: Text(
+                                                  stat.task.theme!.name,
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: headerColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(16.0),
+                                                child: Text(
+                                                  stat.task.complexity.string,
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: headerColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(16.0),
+                                                child: Text(
+                                                  '${stat.grade}',
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: headerColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ]))
+                                    .toList()
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
                 ],
               ),
-            ),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: Card(
-                  child: StreamBuilder<StatisticsState>(
-                      stream: widget.bloc.state,
-                      initialData: widget.bloc.initial,
-                      builder: (context, snapshot) {
-                        final state = snapshot.data!;
-                        if (state.isFetching) return const CircularProgressIndicator();
-                        if (state.stats == null || (state.stats?.isEmpty ?? false)) {
-                          return const Center(
-                            child: Text('No data found'),
-                          );
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.all(32.0),
-                          child: Table(
-                            children: [
-                              ...state.stats!
-                                  .map((stat) => TableRow(children: [
-                                        Text(stat.task.description),
-                                        Text(stat.task.theme.name),
-                                        Text(stat.task.complexity.string),
-                                        Text('${stat.grade}'),
-                                      ]))
-                                  .toList()
-                            ],
-                          ),
-                        );
-                      }),
-                )),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 }

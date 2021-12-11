@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:virtuallab/src/core/models/user/update_password.dart';
+import 'package:virtuallab/src/core/models/user/update_user.dart';
 import 'package:virtuallab/src/core/models/user/user.dart';
 import 'package:virtuallab/src/core/repositories/user_repository.dart';
 
@@ -8,7 +10,8 @@ abstract class UserService {
   Future<Result<List<User>, Exception>> getUsers();
   Future<Result<User, Exception>> getUser(int id);
   Future<Result<bool, Exception>> addUser(User user);
-  Future<Result<bool, Exception>> updateUser(User user);
+  Future<Result<bool, Exception>> updateUser(UpdateUser user);
+  Future<Result<bool, Exception>> updatePassword(UpdatePassword password);
 }
 
 class UserServiceImpl implements UserService {
@@ -52,8 +55,19 @@ class UserServiceImpl implements UserService {
   }
 
   @override
-  Future<Result<bool, Exception>> updateUser(User user) async {
+  Future<Result<bool, Exception>> updateUser(UpdateUser user) async {
     final result = await _repository.updateUser(user);
+
+    if (result.exceptionOrNull != null) {
+      debugPrint(result.exception.toString());
+    }
+
+    return result;
+  }
+
+  @override
+  Future<Result<bool, Exception>> updatePassword(UpdatePassword password) async {
+    final result = await _repository.updatePassword(password);
 
     if (result.exceptionOrNull != null) {
       debugPrint(result.exception.toString());

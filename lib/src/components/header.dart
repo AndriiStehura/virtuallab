@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:virtuallab/src/colors.dart';
+import 'package:virtuallab/src/pages/main_page.dart';
 import 'package:virtuallab/src/pages/profile_page.dart';
 import 'package:virtuallab/src/pages/transition.dart';
 import 'package:virtuallab/src/service_locator.dart';
@@ -11,7 +12,9 @@ AppBar getHeader(BuildContext context) => AppBar(
       leading: const Icon(Icons.lock_clock),
       actions: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushReplacement(createRoute(const MainPage()));
+          },
           child: Text('Home', style: buttonStyle),
         ),
         TextButton(

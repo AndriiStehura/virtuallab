@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:virtuallab/src/core/api_request.dart';
 import 'package:virtuallab/src/core/models/task/answer.dart';
 import 'package:virtuallab/src/core/models/task/compexity.dart';
+import 'package:virtuallab/src/core/models/task/grade.dart';
 import 'package:virtuallab/src/core/models/task/lab_task.dart';
 import 'package:virtuallab/src/core/repositories/base_repository.dart';
 import 'package:virtuallab/src/core/result.dart';
@@ -22,7 +24,7 @@ abstract class TaskRepository implements Repository {
   Future<Result<bool, Exception>> updateTask(LabTask task);
   Future<Result<bool, Exception>> createTask(LabTask task);
   Future<Result<bool, Exception>> deleteTask(int id);
-  Future<Result<double, Exception>> checkAnswer(Answer answer);
+  Future<Result<Grade, Exception>> checkAnswer(Answer answer);
 }
 
 class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
@@ -39,7 +41,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
   final JsonCodec codec;
 
   @override
-  Future<Result<double, Exception>> checkAnswer(Answer answer) async {
+  Future<Result<Grade, Exception>> checkAnswer(Answer answer) async {
     final uri = requestUri(LabApiRequest.checkAnswer);
 
     final body = answerMapper.toJson(answer);
@@ -50,11 +52,12 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
 
     final data = codec.decode(response.body);
 
-    final grade = tryParseDouble(data['grade']);
+    final grade = tryParseDouble(data['rightInPercent']);
+    final rightAnswer = data['rightAnswer'];
 
     if (grade == null) return Result.failed(Exception('received null value'));
 
-    return Result.success(grade);
+    return Result.success(Grade(grade: grade, rightAnswer: rightAnswer));
   }
 
   @override
@@ -108,7 +111,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
       );
     }
 
-    final data = mapper.fromJson(codec.decode(response.body));
+    final data = mapper.fromJson(response.body);
 
     return Result.success(data);
   }

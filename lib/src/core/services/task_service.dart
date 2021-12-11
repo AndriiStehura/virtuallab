@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:virtuallab/src/core/models/task/answer.dart';
 import 'package:virtuallab/src/core/models/task/compexity.dart';
+import 'package:virtuallab/src/core/models/task/grade.dart';
 import 'package:virtuallab/src/core/models/task/lab_task.dart';
 import 'package:virtuallab/src/core/repositories/task_repository.dart';
 import 'package:virtuallab/src/core/result.dart';
@@ -17,7 +18,7 @@ abstract class TaskService {
   Future<Result<bool, Exception>> updateTask(LabTask task);
   Future<Result<bool, Exception>> createTask(LabTask task);
   Future<Result<bool, Exception>> deleteTask(int id);
-  Future<Result<double, Exception>> checkAnswer(Answer answer);
+  Future<Result<Grade, Exception>> checkAnswer(Answer answer);
 }
 
 class TaskServiceImpl implements TaskService {
@@ -26,7 +27,7 @@ class TaskServiceImpl implements TaskService {
   final TaskRepository _repository;
 
   @override
-  Future<Result<double, Exception>> checkAnswer(Answer answer) async {
+  Future<Result<Grade, Exception>> checkAnswer(Answer answer) async {
     final result = await _repository.checkAnswer(answer);
 
     if (result.exceptionOrNull != null) {

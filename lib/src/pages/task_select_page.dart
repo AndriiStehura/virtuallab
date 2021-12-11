@@ -43,12 +43,9 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
     return Scaffold(
       appBar: getHeader(context),
       body: Padding(
-        padding: const EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(32.0),
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
-            ),
             Container(
               alignment: Alignment.centerLeft,
               child: const Text(
@@ -127,7 +124,7 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
                                               )),
                                             );
                                           } else {
-                                            Fluttertoast.showToast(msg: 'No task found');
+                                            Fluttertoast.showToast(msg: 'No task found', webBgColor: 'red');
                                           }
                                         } else {
                                           Fluttertoast.showToast(msg: 'Please select theme and complexity');
@@ -142,7 +139,7 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
                                         ),
                                       ),
                                       child: const Text(
-                                        'Create account',
+                                        'Select task',
                                         style: TextStyle(color: Colors.white70),
                                       ),
                                     ),

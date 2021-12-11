@@ -8,7 +8,7 @@ import 'package:virtuallab/src/core/repositories/statistics_repository.dart';
 import '../result.dart';
 
 abstract class StatisticsService {
-  Future<Result<List<TaskStatistics>, Exception>> getStatistics(int id);
+  Future<Result<List<TaskStatistics>?, Exception>> getStatistics(int id);
 }
 
 class StatisticsServiceImpl implements StatisticsService {
