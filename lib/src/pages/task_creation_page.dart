@@ -93,7 +93,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            widget.task == null ? 'New exercise' : 'Update exercise',
+                            widget.task == null ? 'New task' : 'Update task',
                             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -118,7 +118,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                                     Container(
                                       width: 130,
                                       child: DropdownButtonFormField(
-                                        value: state.themes.first,
+                                        value: _selectedTheme,
                                         onChanged: (value) {
                                           _selectedTheme = value as model.Theme;
                                         },
@@ -163,7 +163,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                               Container(
                                 width: 120,
                                 child: DropdownButtonFormField(
-                                  value: Complexity.easy,
+                                  value: _selectedComplexity,
                                   onChanged: (value) {
                                     _selectedComplexity = value as Complexity;
                                   },

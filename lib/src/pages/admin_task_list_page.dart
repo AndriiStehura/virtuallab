@@ -73,7 +73,7 @@ class _AdminTaskListPageState extends State<AdminTaskListPage> {
                               children: [
                                 Container(
                                   child: const Text(
-                                    'All exercises',
+                                    'All tasks',
                                     style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -256,7 +256,7 @@ class _AdminTaskListPageState extends State<AdminTaskListPage> {
                                                   Padding(
                                                     padding: const EdgeInsets.all(16.0),
                                                     child: Text(
-                                                      'Exercise #${task.id}',
+                                                      'Task #${task.id}',
                                                       style: TextStyle(
                                                         fontSize: 14.0,
                                                         color: headerColor,

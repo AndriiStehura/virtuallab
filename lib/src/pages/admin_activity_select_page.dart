@@ -34,7 +34,7 @@ class AdminActivitySelectPage extends StatelessWidget {
             _buildCard(
               const Icon(Icons.design_services, size: 50),
               'Admin Panel',
-              'Manage the exercises for each of main modules. You can add new exercises, edit and delete exercises.',
+              'Manage the tasks for each of main modules. You can add new tasks, edit and delete tasks.',
               () => null,
             ),
           ],
