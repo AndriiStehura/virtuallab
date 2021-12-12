@@ -10,6 +10,7 @@ class TaskStatistics {
   final int taskId;
   final LabTask task;
   final double grade;
+  final DateTime date;
   TaskStatistics({
     required this.id,
     required this.userId,
@@ -17,6 +18,7 @@ class TaskStatistics {
     required this.taskId,
     required this.task,
     required this.grade,
+    required this.date,
   });
 
   TaskStatistics copyWith({
@@ -26,6 +28,7 @@ class TaskStatistics {
     int? taskId,
     LabTask? task,
     double? grade,
+    DateTime? date,
   }) {
     return TaskStatistics(
       id: id ?? this.id,
@@ -34,6 +37,7 @@ class TaskStatistics {
       taskId: taskId ?? this.taskId,
       task: task ?? this.task,
       grade: grade ?? this.grade,
+      date: date ?? this.date,
     );
   }
 
@@ -45,23 +49,25 @@ class TaskStatistics {
       'taskId': taskId,
       'task': task.toMap(),
       'grade': grade,
+      'date': date.millisecondsSinceEpoch,
     };
   }
 
   factory TaskStatistics.fromMap(Map<String, dynamic> map) {
     return TaskStatistics(
-      id: map['id'],
-      userId: map['userId'],
+      id: map['id']?.toInt() ?? 0,
+      userId: map['userId']?.toInt() ?? 0,
       user: User.fromMap(map['user']),
-      taskId: map['taskId'],
+      taskId: map['taskId']?.toInt() ?? 0,
       task: LabTask.fromMap(map['task']),
-      grade: map['grade'],
+      grade: map['grade']?.toDouble() ?? 0.0,
+      date: DateTime.parse(map['date']),
     );
   }
 
   @override
   String toString() {
-    return 'TaskStatistics(id: $id, userId: $userId, user: $user, taskId: $taskId, task: $task, grade: $grade)';
+    return 'TaskStatistics(id: $id, userId: $userId, user: $user, taskId: $taskId, task: $task, grade: $grade, date: $date)';
   }
 
   @override
@@ -74,13 +80,24 @@ class TaskStatistics {
         other.user == user &&
         other.taskId == taskId &&
         other.task == task &&
-        other.grade == grade;
+        other.grade == grade &&
+        other.date == date;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ userId.hashCode ^ user.hashCode ^ taskId.hashCode ^ task.hashCode ^ grade.hashCode;
+    return id.hashCode ^
+        userId.hashCode ^
+        user.hashCode ^
+        taskId.hashCode ^
+        task.hashCode ^
+        grade.hashCode ^
+        date.hashCode;
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory TaskStatistics.fromJson(String source) => TaskStatistics.fromMap(json.decode(source));
 }
 
 class TaskStatisticsMapper {

@@ -13,7 +13,7 @@ import '../result.dart';
 abstract class AuthService {
   Future<Result<bool, Exception>> login(AuthData data);
   Future<Result<bool, Exception>> register(User data);
-  Future<Result<bool, Exception>> signOut(AuthData data);
+  Future<Result<bool, Exception>> signOut();
 
   Future<Result<bool, Exception>> tryAutologin();
 
@@ -63,17 +63,30 @@ class AuthServiceImpl implements AuthService {
     return result;
   }
 
+  // @override
+  // Future<Result<bool, Exception>> signOut(AuthData data) async {
+  //   final result = await _repository.signOut(data);
+
+  //   if (result.exceptionOrNull != null) {
+  //     debugPrint(result.exception.toString());
+  //   }
+
+  //   invalidate();
+
+  //   return result;
+  // }
+
   @override
-  Future<Result<bool, Exception>> signOut(AuthData data) async {
-    final result = await _repository.signOut(data);
+  Future<Result<bool, Exception>> signOut() async {
+    //final result = await _repository.signOut(data);
 
-    if (result.exceptionOrNull != null) {
-      debugPrint(result.exception.toString());
-    }
+    // if (result.exceptionOrNull != null) {
+    //   debugPrint(result.exception.toString());
+    // }
 
-    invalidate();
+    await invalidate();
 
-    return result;
+    return Result.success(true);
   }
 
   final Storage _localStorage = window.localStorage;

@@ -76,7 +76,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
   Future<Result<bool, Exception>> deleteTask(int id) async {
     final uri = requestUri(LabApiRequest.tasks, parameters: {'id': '$id'});
 
-    final response = await client.post(uri);
+    final response = await client.delete(uri);
 
     if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Get task failed'));
 
@@ -124,7 +124,7 @@ class TaskRepositoryImpl extends RequestRepository implements TaskRepository {
 
     if (response.statusCode != HttpStatus.ok) return Result.failed(Exception('Get tasks failed'));
 
-    final data = mapper.fromListJson(codec.decode(response.body));
+    final data = mapper.fromJsonList(response.body);
 
     return Result.success(data);
   }

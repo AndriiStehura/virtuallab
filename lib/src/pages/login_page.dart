@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         return value.isBlank ? 'Provide a valid email name' : null;
       },
       decoration: InputDecoration(
-        label: const Text('Email'),
+        label: const Text('Login'),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
         ),
@@ -94,11 +94,12 @@ class _LoginPageState extends State<LoginPage> {
         Expanded(
           child: Container(
             color: headerColor,
-            child: const Center(
-                child: Icon(
-              Icons.lock_clock,
-              size: 50,
-            )),
+            child: Center(
+              child: Image.asset(
+                'res/grey_logo.png',
+                height: 500,
+              ),
+            ),
           ),
         ),
         StreamBuilder<SignUpState>(

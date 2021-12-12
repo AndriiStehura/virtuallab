@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/streams.dart';
+import 'package:virtuallab/src/core/models/user/auth_data.dart';
 import 'package:virtuallab/src/core/models/user/update_password.dart';
 import 'package:virtuallab/src/core/models/user/update_user.dart';
 import 'package:virtuallab/src/core/models/user/user.dart';
@@ -56,6 +57,7 @@ abstract class ProfileBloc {
   ProfileState get initial;
 
   Future<void> saveProfile(UpdateUser user, UpdatePassword? password);
+  Future<void> logOut();
 }
 
 class ProfileBlocImpl implements ProfileBloc {
@@ -92,5 +94,10 @@ class ProfileBlocImpl implements ProfileBloc {
       _authService.currentUser = newUser.valueOrNull;
       sink.add(ProfileState(isFetching: false, isSaved: true, hasError: false, user: null));
     }
+  }
+
+  @override
+  Future<void> logOut() async {
+    await _authService.signOut();
   }
 }

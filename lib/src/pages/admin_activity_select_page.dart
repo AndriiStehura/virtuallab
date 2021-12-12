@@ -13,7 +13,7 @@ class AdminActivitySelectPage extends StatelessWidget {
         ),
         const Text(
           ' Choose the activity to do today:',
-          style: TextStyle(fontSize: 22.0, color: backgroundTextColor),
+          style: TextStyle(fontSize: 18.0, color: backgroundTextColor),
         ),
         const SizedBox(
           height: 100,
@@ -45,7 +45,7 @@ class AdminActivitySelectPage extends StatelessWidget {
 
   Widget _buildCard(Widget icon, String headerText, String descriptionText, Function() onTap) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.symmetric(horizontal: 18.0),
       height: 300,
       width: 240,
       child: Card(
@@ -63,7 +63,7 @@ class AdminActivitySelectPage extends StatelessWidget {
                   style: const TextStyle(fontSize: 18.0),
                 ),
                 const SizedBox(height: 16),
-                Text(descriptionText, style: const TextStyle(fontSize: 14.0, color: backgroundTextColor)),
+                Text(descriptionText, style: const TextStyle(fontSize: 16.0, color: backgroundTextColor)),
               ],
             ),
           ),

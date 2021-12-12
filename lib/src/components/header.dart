@@ -5,11 +5,20 @@ import 'package:virtuallab/src/pages/profile_page.dart';
 import 'package:virtuallab/src/pages/transition.dart';
 import 'package:virtuallab/src/service_locator.dart';
 
-TextStyle get buttonStyle => const TextStyle(fontSize: 14, color: Colors.white70);
+TextStyle get buttonStyle => const TextStyle(fontSize: 16, color: Colors.white70);
 
 AppBar getHeader(BuildContext context) => AppBar(
       backgroundColor: headerColor,
-      leading: const Icon(Icons.lock_clock),
+      leading: Center(
+        child: SizedBox(
+          child: Image.asset(
+            'res/white_logo.png',
+            height: 40,
+            width: 40,
+            scale: 0.5,
+          ),
+        ),
+      ),
       actions: [
         TextButton(
           onPressed: () {

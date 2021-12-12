@@ -92,6 +92,7 @@ abstract class TaskCreationBloc {
 
   Future<void> getThemes();
   Future<void> submitTask(LabTask task);
+  Future<void> updateTask(LabTask task);
   Future<void> submitTheme(String themeName);
 }
 
@@ -153,6 +154,19 @@ class TaskCreationBlocImpl implements TaskCreationBloc {
     } else {
       sink.add(TaskCreationState(
           hasError: false, isFetching: false, isSaved: false, themes: _themes, addThemeSuccess: false));
+    }
+  }
+
+  @override
+  Future<void> updateTask(LabTask task) async {
+    sink.add(TaskCreationState(themes: _themes, isFetching: true, hasError: false, isSaved: false));
+
+    final result = await _taskService.updateTask(task);
+
+    if (result.valueOrNull != null) {
+      sink.add(TaskCreationState(hasError: false, isFetching: false, isSaved: true, themes: _themes));
+    } else {
+      sink.add(TaskCreationState(hasError: true, isFetching: false, isSaved: false, themes: _themes));
     }
   }
 }

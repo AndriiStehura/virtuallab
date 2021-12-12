@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
+import 'package:virtuallab/src/bloc/admin_task_list_bloc.dart';
 import 'package:virtuallab/src/bloc/auth_bloc.dart';
 import 'package:virtuallab/src/bloc/profile_bloc.dart';
 import 'package:virtuallab/src/bloc/statistics_bloc.dart';
@@ -96,5 +97,8 @@ void setup() {
     )
     ..registerFactory<TaskCreationBloc>(
       () => TaskCreationBlocImpl(themeService: serviceLocator(), taskService: serviceLocator()),
+    )
+    ..registerFactory<AdminTaskListBloc>(
+      () => AdminTaskListBlocImpl(taskService: serviceLocator(), themeService: serviceLocator()),
     );
 }

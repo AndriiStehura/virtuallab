@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:virtuallab/src/bloc/task_select_bloc.dart';
+import 'package:virtuallab/src/colors.dart';
 import 'package:virtuallab/src/components/header.dart';
 import 'package:virtuallab/src/core/models/task/compexity.dart';
 import 'package:virtuallab/src/core/models/task/theme.dart' as model;
@@ -50,10 +51,13 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
               alignment: Alignment.centerLeft,
               child: const Text(
                 'Coding Module',
-                style: TextStyle(fontSize: 22.0),
+                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
             ),
-            const Divider(),
+            const Divider(
+              color: Colors.black,
+              thickness: 1.0,
+            ),
             const SizedBox(
               height: 50,
             ),
@@ -66,11 +70,17 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
                   return Center(
                     child: state.isFetching
                         ? const CircularProgressIndicator()
-                        : SizedBox(
+                        : Container(
+                            alignment: Alignment.center,
                             width: 500,
                             child: Column(
+                              mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                SizedBox(
+                                  height: 125,
+                                ),
                                 const Text(
                                   'Choose theme',
                                   style: TextStyle(fontSize: 18.0),
@@ -131,7 +141,7 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
                                         }
                                       },
                                       style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                                        backgroundColor: MaterialStateProperty.all<Color>(headerColor),
                                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                           RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(12.0),
@@ -140,7 +150,7 @@ class _TaskSelectPageState extends State<TaskSelectPage> {
                                       ),
                                       child: const Text(
                                         'Select task',
-                                        style: TextStyle(color: Colors.white70),
+                                        style: TextStyle(color: Colors.white70, fontSize: 18.0),
                                       ),
                                     ),
                                   ),

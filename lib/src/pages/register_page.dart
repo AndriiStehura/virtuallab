@@ -48,11 +48,12 @@ class _RegisterPageState extends State<RegisterPage> {
         Expanded(
           child: Container(
             color: headerColor,
-            child: const Center(
-                child: Icon(
-              Icons.lock_clock,
-              size: 50,
-            )),
+            child: Center(
+              child: Image.asset(
+                'res/grey_logo.png',
+                height: 500,
+              ),
+            ),
           ),
         ),
         Flexible(
@@ -119,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: headerColor, width: 1.0),
                           ),
-                          label: Text('Email*')),
+                          label: Text('Login*')),
                     ));
                 final _passwordField = Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -200,6 +201,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               SizedBox(
                                 width: double.infinity,
+                                height: 45.0,
                                 child: Hero(
                                   tag: 'oleg',
                                   child: ElevatedButton(

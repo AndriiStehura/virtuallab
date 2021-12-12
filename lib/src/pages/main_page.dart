@@ -72,7 +72,7 @@ class MainPage extends StatelessWidget {
 
   Widget _buildCard(Widget icon, String headerText, String descriptionText, Function() onTap) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.symmetric(horizontal: 18.0),
       height: 300,
       width: 220,
       child: Card(
@@ -91,7 +91,8 @@ class MainPage extends StatelessWidget {
                   style: const TextStyle(fontSize: 18.0),
                 ),
                 const SizedBox(height: 16),
-                Text(descriptionText, style: const TextStyle(fontSize: 14.0, color: backgroundTextColor)),
+                Text(descriptionText,
+                    textAlign: TextAlign.center, style: const TextStyle(fontSize: 16.0, color: backgroundTextColor)),
               ],
             ),
           ),

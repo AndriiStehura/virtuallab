@@ -97,5 +97,11 @@ class LabTaskMapper {
 
   LabTask fromJson(String source) => LabTask.fromMap(json.decode(source));
 
-  List<LabTask> fromListJson(Iterable<String> source) => source.map((e) => fromJson(e)).toList();
+  List<LabTask> fromJsonList(String source) {
+    final data = json.decode(source);
+
+    final themes = data.map<LabTask>((e) => LabTask.fromMap(e as Map<String, dynamic>));
+
+    return themes.toList();
+  }
 }

@@ -22,8 +22,8 @@ class TaskPassingResultPage extends StatelessWidget {
       body: Center(
         heightFactor: 1.3,
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.6,
-          height: MediaQuery.of(context).size.height * 0.6,
+          width: MediaQuery.of(context).size.width * 0.7,
+          height: MediaQuery.of(context).size.height * 0.7,
           child: Card(
             elevation: 6.0,
             child: Padding(
@@ -40,7 +40,7 @@ class TaskPassingResultPage extends StatelessWidget {
                     thickness: 1.0,
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 18.0,
                   ),
                   Align(
                     alignment: Alignment.center,
@@ -54,11 +54,14 @@ class TaskPassingResultPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 18.0,
                   ),
                   const Text(
                     'Your solution:',
-                    style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                    style: TextStyle(fontSize: 18.0, color: backgroundTextColor),
+                  ),
+                  const SizedBox(
+                    height: 18.0,
                   ),
                   Container(
                     height: 100,
@@ -76,22 +79,22 @@ class TaskPassingResultPage extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
                         userAnswer,
-                        style: const TextStyle(fontSize: 14.0),
+                        style: const TextStyle(fontSize: 18.0),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 18.0,
                   ),
                   const Text(
                     'Right solution:',
-                    style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                    style: TextStyle(fontSize: 16.0, color: backgroundTextColor),
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 18.0,
                   ),
                   Container(
                     height: 100,
@@ -105,26 +108,26 @@ class TaskPassingResultPage extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
                         grade.rightAnswer,
-                        style: const TextStyle(fontSize: 14.0),
+                        style: const TextStyle(fontSize: 16.0),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 18.0,
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
-                      width: 100,
+                      width: 130,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
                             style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all<Size>(const Size(100.0, 35.0)),
+                              fixedSize: MaterialStateProperty.all<Size>(const Size(130.0, 35.0)),
                               backgroundColor: MaterialStateProperty.all<Color>(headerColor),
                               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
@@ -132,7 +135,10 @@ class TaskPassingResultPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: const Text('Continue'),
+                            child: const Text(
+                              'Continue',
+                              style: TextStyle(color: Colors.white, fontSize: 18.0),
+                            ),
                             onPressed: () async {
                               Navigator.of(context).pushReplacement(createRoute(const MainPage()));
                             },

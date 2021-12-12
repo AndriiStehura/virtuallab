@@ -12,9 +12,10 @@ import 'package:virtuallab/src/pages/transition.dart';
 import 'main_page.dart';
 
 class TaskCreationPage extends StatefulWidget {
-  const TaskCreationPage({Key? key, required this.bloc}) : super(key: key);
+  const TaskCreationPage({Key? key, required this.bloc, this.task}) : super(key: key);
 
   final TaskCreationBloc bloc;
+  final LabTask? task;
 
   @override
   _TaskCreationPageState createState() => _TaskCreationPageState();
@@ -25,17 +26,24 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
   Complexity _selectedComplexity = Complexity.easy;
 
   final _formKey = GlobalKey<FormState>();
-  final _descriptionController = TextEditingController();
-  final _answerController = TextEditingController();
+  late final _descriptionController;
+  late final _answerController;
 
   bool _isFirstState = true;
 
   @override
   void initState() {
     super.initState();
+
+    _descriptionController = TextEditingController(text: widget.task?.description);
+    _answerController = TextEditingController(text: widget.task?.answer);
+
+    _selectedTheme = widget.task?.theme;
+    _selectedComplexity = widget.task?.complexity ?? Complexity.easy;
+
     widget.bloc.getThemes();
     widget.bloc.state.listen((event) {
-      if (event.themes.isNotEmpty && _isFirstState) {
+      if (event.themes.isNotEmpty && _isFirstState && _selectedTheme == null) {
         setState(() {
           _selectedTheme = event.themes.first;
           _isFirstState = false;
@@ -43,7 +51,11 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
       }
       if (event.isSaved) {
         Navigator.of(context).pushReplacement(createRoute(MainPage()));
-        Fluttertoast.showToast(msg: 'Successfully created task', timeInSecForIosWeb: 5);
+        if (widget.task == null) {
+          Fluttertoast.showToast(msg: 'Successfully created task', timeInSecForIosWeb: 5);
+        } else {
+          Fluttertoast.showToast(msg: 'Successfully updated task', timeInSecForIosWeb: 5);
+        }
       }
 
       if (event.addThemeSuccess != null && event.addThemeSuccess!) {
@@ -71,17 +83,17 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
               return Form(
                 key: _formKey,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   child: Card(
                     elevation: 6.0,
                     child: Padding(
                       padding: const EdgeInsets.all(32.0),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        const Align(
+                        Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'New exercise',
+                            widget.task == null ? 'New exercise' : 'Update exercise',
                             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -90,7 +102,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                           thickness: 1.0,
                         ),
                         const SizedBox(
-                          height: 20.0,
+                          height: 18.0,
                         ),
                         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                           Column(
@@ -98,7 +110,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                             children: [
                               const Text(
                                 'Select theme',
-                                style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                                style: TextStyle(fontSize: 16.0, color: backgroundTextColor),
                               ),
                               Container(
                                 child: Row(
@@ -146,7 +158,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                             children: [
                               const Text(
                                 'Select complexity',
-                                style: TextStyle(fontSize: 14.0),
+                                style: TextStyle(fontSize: 16.0),
                               ),
                               Container(
                                 width: 120,
@@ -169,7 +181,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                         const SizedBox(height: 30),
                         const Text(
                           'Enter description:',
-                          style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                          style: TextStyle(fontSize: 16.0, color: backgroundTextColor),
                         ),
                         const SizedBox(height: 15),
                         SizedBox(
@@ -199,7 +211,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                         const SizedBox(height: 30),
                         const Text(
                           'Enter solution:',
-                          style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                          style: TextStyle(fontSize: 16.0, color: backgroundTextColor),
                         ),
                         const SizedBox(height: 15),
                         SizedBox(
@@ -273,14 +285,17 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                                   onPressed: () {
                                     if (_formKey.currentState?.validate() ?? false) {
                                       final task = LabTask(
-                                          id: 0,
+                                          id: widget.task?.id ?? 0,
                                           description: _descriptionController.text,
                                           answer: _answerController.text,
                                           complexity: _selectedComplexity,
                                           themeId: _selectedTheme!.id,
                                           theme: _selectedTheme!);
 
-                                      widget.bloc.submitTask(task);
+                                      if (widget.task == null)
+                                        widget.bloc.submitTask(task);
+                                      else
+                                        widget.bloc.updateTask(task);
                                     }
                                   },
                                 ),
@@ -316,7 +331,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                   children: [
                     const Text(
                       'Enter theme name:',
-                      style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                      style: TextStyle(fontSize: 16.0, color: backgroundTextColor),
                     ),
                     SizedBox(
                       height: 8,
@@ -325,7 +340,7 @@ class _TaskCreationPageState extends State<TaskCreationPage> {
                       key: _themeFormKey,
                       child: TextFormField(
                         controller: _themeNameController,
-                        decoration: const InputDecoration(hintText: 'Enter theme name'),
+                        decoration: const InputDecoration(hintText: 'Theme'),
                       ),
                     ),
                     SizedBox(

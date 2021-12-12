@@ -52,8 +52,8 @@ class _TaskPassingPageState extends State<TaskPassingPage> {
               return Form(
                 key: _formKey,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   child: Card(
                     elevation: 6.0,
                     child: Padding(
@@ -70,7 +70,7 @@ class _TaskPassingPageState extends State<TaskPassingPage> {
                             thickness: 1.0,
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 18.0,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +79,7 @@ class _TaskPassingPageState extends State<TaskPassingPage> {
                                 text: TextSpan(
                                     text: 'Theme ',
                                     style: const TextStyle(
-                                        fontSize: 14.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
+                                        fontSize: 16.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
                                     children: [
                                       TextSpan(
                                         text: widget.task.theme!.name,
@@ -91,7 +91,7 @@ class _TaskPassingPageState extends State<TaskPassingPage> {
                                 text: TextSpan(
                                     text: 'Complexity ',
                                     style: const TextStyle(
-                                        fontSize: 14.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
+                                        fontSize: 16.0, fontWeight: FontWeight.normal, color: backgroundTextColor),
                                     children: [
                                       TextSpan(
                                           text: widget.task.complexity.string,
@@ -101,17 +101,14 @@ class _TaskPassingPageState extends State<TaskPassingPage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 18.0,
                           ),
                           const Text(
                             'Description:',
-                            style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                            style: TextStyle(fontSize: 16.0, color: backgroundTextColor),
                           ),
                           const SizedBox(
-                            height: 20.0,
-                          ),
-                          const SizedBox(
-                            height: 20.0,
+                            height: 18.0,
                           ),
                           Container(
                             height: 100,
@@ -126,18 +123,21 @@ class _TaskPassingPageState extends State<TaskPassingPage> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(widget.task.description),
+                              child: Text(
+                                widget.task.description,
+                                style: TextStyle(fontSize: 18.0),
+                              ),
                             ),
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 18.0,
                           ),
                           const Text(
                             'Your solution:',
-                            style: TextStyle(fontSize: 14.0, color: backgroundTextColor),
+                            style: TextStyle(fontSize: 16.0, color: backgroundTextColor),
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 18.0,
                           ),
                           SizedBox(
                             height: 100,
@@ -164,7 +164,7 @@ class _TaskPassingPageState extends State<TaskPassingPage> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 18.0,
                           ),
                           Align(
                             alignment: Alignment.bottomRight,
