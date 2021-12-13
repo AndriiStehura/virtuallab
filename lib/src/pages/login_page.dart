@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           validator: (value) {
             return value.isBlank ? 'Provide a valid password' : null;
           },
+          obscureText: true,
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: headerColor.withOpacity(0.8), width: 1.0),
